@@ -1,0 +1,1376 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RoamIQ v7</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+[data-theme="light"]{
+  --bg:#F4F5F9;--surface:#FFFFFF;--surface2:#F0F1F6;--surface3:#E8EAF2;
+  --border:#E8EBF3;--border2:#D4D8E8;--text:#0D0E14;--text2:#4B5068;--text3:#9298B2;
+  --shadow:rgba(0,0,0,0.04);--shadow2:rgba(0,0,0,0.12);
+}
+[data-theme="dark"]{
+  --bg:#0D0E12;--surface:#15171C;--surface2:#1C1F27;--surface3:#222630;
+  --border:#2A2D38;--border2:#32374A;--text:#F0F1F5;--text2:#8B90A4;--text3:#5C6075;
+  --shadow:rgba(0,0,0,0.3);--shadow2:rgba(0,0,0,0.5);
+}
+:root{
+  --accent:#4A7FFF;--green:#16A05C;--red:#D93535;--amber:#C47800;
+  --wa:#25D366;
+  --fh:'Syne',sans-serif;--fb:'DM Sans',sans-serif;
+  --r:14px;--r2:10px;--r3:6px;--rpill:999px;
+  /* Type scale */
+  --t-micro:10px;--t-xs:12px;--t-sm:13px;--t-base:14px;--t-md:16px;--t-lg:20px;--t-xl:24px;--t-2xl:30px;
+  /* Weights */
+  --w-reg:400;--w-med:500;--w-bold:600;
+  /* Spacing (4px base) */
+  --s1:4px;--s2:8px;--s3:12px;--s4:16px;--s5:24px;--s6:32px;
+}
+[data-theme="dark"]{--accent:#5B8FFF;--green:#2DB974;--red:#E84545;--amber:#D4900A;}
+
+html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--fb);font-size:14px;line-height:1.5;overflow:hidden;transition:background .25s,color .25s;}
+.app{display:grid;grid-template-columns:240px 1fr;height:100vh;overflow:hidden;}
+
+/* SIDEBAR */
+.sidebar{background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden;transition:background .25s,border-color .25s;}
+.sb-head{padding:18px 16px 14px;border-bottom:1px solid var(--border);flex-shrink:0;}
+.logo{font-family:var(--fh);font-size:16px;font-weight:600;letter-spacing:-.5px;display:flex;align-items:center;gap:7px;}
+.logo-dot{width:7px;height:7px;border-radius:50%;background:linear-gradient(135deg,var(--accent),#3A6FEF);flex-shrink:0;}
+.logo-tag{font-size:10px;color:var(--text3);letter-spacing:1.2px;text-transform:uppercase;margin-top:1px;font-weight:400;}
+.new-thread-btn{margin-top:12px;width:100%;background:var(--accent);border:none;border-radius:var(--r2);padding:9px 12px;font-size:12px;font-weight:500;color:#fff;cursor:pointer;font-family:var(--fb);display:flex;align-items:center;gap:6px;transition:opacity .15s;}
+.new-thread-btn:hover{opacity:.88;}
+.sb-scroll{flex:1;overflow-y:auto;min-height:0;}
+.sb-scroll::-webkit-scrollbar{width:3px;}
+.sb-scroll::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px;}
+.sb-sec{padding:12px 8px 6px;}
+.sb-lbl{font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3);padding:0 8px;margin-bottom:6px;}
+.nav{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:var(--r2);cursor:pointer;color:var(--text2);font-size:13px;transition:all .15s;user-select:none;}
+.nav:hover,.nav.on{background:var(--surface2);color:var(--text);}
+.nav i{width:15px;text-align:center;font-size:12px;}
+.nbadge{margin-left:auto;background:var(--red);color:#fff;font-size:10px;font-weight:600;padding:1px 5px;border-radius:var(--rpill);}
+.city-grp{margin-bottom:4px;}
+.city-lbl{display:flex;align-items:center;gap:5px;font-size:10px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;color:var(--text3);padding:6px 10px 3px;}
+.city-lbl span{width:4px;height:4px;border-radius:50%;display:inline-block;}
+
+.hist-search{padding:6px 8px;}
+.hist-search-box{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:var(--r2);padding:6px 10px 6px 30px;font-size:12px;color:var(--text);font-family:var(--fb);outline:none;transition:border-color .15s;}
+.hist-search-box:focus{border-color:var(--accent);}
+.hist-search-box::placeholder{color:var(--text3);}
+.hist-search-wrap{position:relative;}
+.hist-search-wrap i{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--text3);font-size:10px;pointer-events:none;}
+.hist-group-lbl{font-size:10px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--text3);padding:8px 16px 3px;}
+.hist-item{padding:8px 12px;border-radius:var(--r2);cursor:pointer;transition:background .15s;margin:0 6px;}
+.hist-item:hover{background:var(--surface2);}
+.hist-item.active{background:var(--surface2);}
+.hist-title{font-size:12px;color:var(--text);font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.hist-meta{font-size:10px;color:var(--text3);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+
+.sb-sources{padding:12px 16px;border-top:1px solid var(--border);flex-shrink:0;}
+.sources-row{display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
+.src-dot{display:inline-flex;align-items:center;gap:4px;font-size:10px;color:var(--text3);}
+.src-dot span{width:5px;height:5px;border-radius:50%;background:var(--green);}
+
+/* MAIN */
+.main{display:flex;flex-direction:column;height:100%;min-height:0;overflow:hidden;}
+.topbar{padding:14px 28px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);flex-shrink:0;background:var(--surface);transition:background .25s,border-color .25s;}
+.t-name{font-family:var(--fh);font-size:16px;font-weight:600;}
+.t-sub{font-size:12px;color:var(--text3);margin-top:2px;}
+.tg{display:flex;align-items:center;gap:7px;cursor:pointer;background:var(--surface2);border:1px solid var(--border);border-radius:var(--rpill);padding:5px 8px 5px 11px;transition:all .15s;user-select:none;}
+.tg:hover{border-color:var(--border2);}
+.tg-lbl{font-size:12px;color:var(--text2);}
+.tg-track{width:30px;height:17px;border-radius:var(--rpill);background:var(--border2);position:relative;transition:background .25s;flex-shrink:0;}
+[data-theme="dark"] .tg-track{background:var(--accent);}
+.tg-thumb{position:absolute;top:2px;left:2px;width:13px;height:13px;border-radius:50%;background:#fff;transition:transform .25s;box-shadow:0 1px 3px rgba(0,0,0,.2);}
+[data-theme="dark"] .tg-thumb{transform:translateX(13px);}
+
+.past-banner{background:rgba(74,127,255,.08);border-bottom:1px solid rgba(74,127,255,.2);padding:8px 28px;display:none;align-items:center;justify-content:space-between;flex-shrink:0;}
+.past-banner.show{display:flex;}
+.past-banner-txt{font-size:12px;color:var(--accent);display:flex;align-items:center;gap:6px;}
+.past-banner-btn{background:var(--accent);border:none;border-radius:var(--r2);padding:5px 12px;font-size:12px;color:#fff;cursor:pointer;font-family:var(--fb);}
+
+.chat{flex:1;min-height:0;overflow-y:auto;padding:32px 40px;display:flex;flex-direction:column;gap:28px;}
+.chat::-webkit-scrollbar{width:3px;}
+.chat::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px;}
+
+/* RECAP STRIP — compact collapsible yesterday summary */
+.recap-strip{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:0;}
+.recap-header{display:flex;align-items:center;gap:10px;padding:12px 18px;cursor:pointer;user-select:none;transition:background .15s;}
+.recap-header:hover{background:var(--surface2);}
+.recap-closed-badges{display:flex;align-items:center;gap:6px;flex:1;}
+.recap-badge{display:inline-flex;align-items:center;gap:4px;font-size:10px;padding:2px 9px;border-radius:var(--rpill);font-weight:500;}
+.rb-ok{background:rgba(22,160,92,.1);color:var(--green);}
+.rb-red{background:rgba(217,53,53,.08);color:var(--red);}
+.rb-amb{background:rgba(196,120,0,.08);color:var(--amber);}
+.recap-toggle-lbl{font-size:10px;color:var(--text3);display:flex;align-items:center;gap:4px;white-space:nowrap;}
+.recap-toggle-lbl i{font-size:10px;transition:transform .2s;}
+.recap-toggle-lbl.open i{transform:rotate(180deg);}
+.recap-body{display:none;flex-direction:column;gap:0;border-top:1px solid var(--border);}
+.recap-body.open{display:flex;}
+.recap-item{display:flex;align-items:flex-start;gap:12px;padding:14px 18px;border-bottom:1px solid var(--border);}
+.recap-item:last-child{border-bottom:none;}
+.recap-ico{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;flex-shrink:0;margin-top:1px;}
+.ric-ok{background:rgba(22,160,92,.12);color:var(--green);}
+.ric-bad{background:rgba(217,53,53,.12);color:var(--red);}
+.ric-warn{background:rgba(196,120,0,.12);color:var(--amber);}
+.recap-title{font-size:13px;font-weight:500;color:var(--text);line-height:1.35;}
+.recap-detail{font-size:12px;color:var(--text2);margin-top:4px;line-height:1.55;}
+.recap-act{display:inline-flex;align-items:center;gap:4px;margin-top:7px;font-size:10px;color:var(--wa);cursor:pointer;border:1px solid rgba(37,211,102,.28);border-radius:var(--rpill);padding:3px 9px;transition:all .15s;}
+.recap-act:hover{background:rgba(37,211,102,.07);}
+
+/* BRIEFING — narrative-first, hero action */
+.brief{background:var(--surface);padding:var(--s6);border:1px solid var(--border);border-radius:var(--r);}
+.brief-greeting{font-family:var(--fh);font-size:24px;font-weight:600;line-height:1.2;margin-bottom:var(--s2);}
+.brief-narrative{font-size:14px;color:var(--text2);line-height:1.75;margin-bottom:var(--s5);max-width:560px;}
+.brief-narrative strong{color:var(--text);}
+
+/* carryover tag for "Also today" items from yesterday */
+.ctag-carry{display:inline-flex;align-items:center;gap:3px;font-size:10px;padding:1px 6px;border-radius:var(--rpill);margin-left:5px;font-weight:500;background:rgba(196,120,0,.1);color:var(--amber);border:1px solid rgba(196,120,0,.2);vertical-align:middle;}
+
+.pa{margin-bottom:var(--s5);background:rgba(217,53,53,.04);border:1px solid rgba(217,53,53,.12);border-radius:var(--r);padding:var(--s5);}
+.pa-flag{display:inline-flex;align-items:center;gap:5px;background:var(--red);border-radius:var(--rpill);padding:3px 11px;font-size:10px;color:#fff;font-weight:600;margin-bottom:var(--s3);letter-spacing:.5px;text-transform:uppercase;}
+.pa-action{font-family:var(--fh);font-size:20px;font-weight:600;line-height:1.3;letter-spacing:-.3px;margin-bottom:var(--s2);}
+.pa-impact{font-size:14px;color:var(--text2);line-height:1.7;}
+.pa-impact strong{color:var(--red);}
+.pa-cta{display:flex;gap:var(--s2);margin-top:var(--s4);flex-wrap:wrap;}
+
+.sec-alerts{display:flex;flex-direction:column;}
+.sa-divider{height:0;margin-bottom:var(--s1);}
+.sa-heading{font-size:10px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--text3);margin-bottom:var(--s2);}
+.sec-alert{display:flex;align-items:center;gap:var(--s3);padding:var(--s3) 0;cursor:pointer;transition:opacity .15s;border-bottom:1px solid var(--border);}
+.sec-alert:last-child{border-bottom:none;}
+.sec-alert:hover{opacity:.7;}
+.sec-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0;}
+.sd-r{background:var(--red);}
+.sd-a{background:var(--amber);}
+.sec-txt{font-size:13px;color:var(--text2);flex:1;line-height:1.4;}
+.sec-txt strong{color:var(--text);}
+.ctag{display:inline-flex;align-items:center;font-size:10px;padding:1px 6px;border-radius:var(--rpill);margin-left:5px;font-weight:500;}
+.ct-h{background:rgba(74,127,255,.1);color:var(--accent);}
+.ct-b{background:rgba(74,127,255,.08);color:var(--accent);}
+
+/* BUTTONS */
+.btn-p{background:var(--accent);border:none;border-radius:var(--r2);padding:10px 18px;font-size:13px;font-weight:500;color:#fff;cursor:pointer;font-family:var(--fb);transition:opacity .15s;display:inline-flex;align-items:center;gap:6px;}
+.btn-p:hover{opacity:.88;}
+.btn-g{background:transparent;border:1px solid var(--border2);border-radius:var(--r2);padding:10px 16px;font-size:13px;color:var(--text2);cursor:pointer;font-family:var(--fb);transition:all .15s;display:inline-flex;align-items:center;gap:6px;}
+.btn-g:hover{border-color:var(--accent);color:var(--text);}
+.btn-wa{background:transparent;border:1px solid rgba(37,211,102,.35);border-radius:var(--r2);padding:10px 16px;font-size:13px;color:var(--wa);cursor:pointer;font-family:var(--fb);transition:all .15s;display:inline-flex;align-items:center;gap:6px;}
+.btn-wa:hover{background:rgba(37,211,102,.08);}
+
+/* USER MSG ACTIONS */
+.umsg{display:flex;justify-content:flex-end;flex-direction:column;align-items:flex-end;gap:4px;}
+.umsg-actions{display:flex;gap:4px;opacity:0;transition:opacity .15s;}
+.umsg:hover .umsg-actions{opacity:1;}
+.umsg-act{background:transparent;border:none;padding:3px 7px;border-radius:var(--r3);font-size:10px;color:var(--text3);cursor:pointer;font-family:var(--fb);display:inline-flex;align-items:center;gap:3px;transition:all .15s;}
+.umsg-act:hover{background:var(--surface2);color:var(--text);}
+.ubub{background:var(--accent);color:#fff;padding:11px 18px;border-radius:var(--r) 18px 4px 18px;font-size:13px;max-width:460px;line-height:1.5;}
+.amsg{display:flex;flex-direction:column;gap:10px;}
+.ai-row{display:flex;align-items:center;gap:8px;}
+.av{width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,var(--accent),#3A6FEF);display:flex;align-items:center;justify-content:center;font-size:10px;color:#fff;font-weight:600;font-family:var(--fh);flex-shrink:0;}
+.ai-meta{font-size:10px;color:var(--text3);}
+
+/* CONTEXT LINE */
+.ctx-wrap{display:flex;flex-direction:column;gap:6px;}
+.ctx-line{display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
+.ctx-chip-edit{display:inline-flex;align-items:center;gap:4px;background:var(--surface2);border:1px solid var(--border2);border-radius:var(--rpill);padding:4px 11px;font-size:12px;font-weight:500;color:var(--text);cursor:pointer;transition:all .15s;position:relative;user-select:none;}
+.ctx-chip-edit:hover{border-color:var(--accent);}
+.ctx-chip-edit i.lead{font-size:10px;color:var(--text3);}
+.ctx-chip-edit i.arr{font-size:10px;color:var(--text3);margin-left:2px;}
+.ctx-sep{color:var(--text3);font-size:12px;}
+.ctx-how{display:inline-flex;align-items:center;gap:3px;cursor:pointer;color:var(--text3);font-size:10px;border:1px solid var(--border);border-radius:var(--rpill);padding:3px 9px;transition:all .15s;}
+.ctx-how:hover{border-color:var(--accent);color:var(--accent);}
+.ctx-override{font-size:12px;color:var(--text3);display:flex;align-items:center;gap:5px;padding:3px 0;}
+.ctx-override a{color:var(--accent);cursor:pointer;text-decoration:underline;text-underline-offset:2px;}
+.ctx-disambig{font-size:12px;color:var(--text2);display:flex;align-items:center;gap:5px;padding:7px 12px;background:rgba(74,127,255,.06);border-radius:var(--r3);}
+.ctx-disambig i{color:var(--accent);font-size:10px;}
+.ctx-disambig a{color:var(--accent);cursor:pointer;text-decoration:underline;text-underline-offset:2px;}
+.ctx-chips-src{display:none;flex-wrap:wrap;gap:4px;}
+.ctx-chips-src.open{display:flex;}
+.cchip{display:inline-flex;align-items:center;gap:3px;padding:2px 8px;border-radius:var(--rpill);font-size:10px;border:1px solid var(--border2);background:var(--surface2);color:var(--text2);}
+.cc-pos{border-color:rgba(74,127,255,.3);color:var(--accent);}
+.cc-cam{border-color:rgba(22,160,92,.3);color:var(--green);}
+.cc-rev{border-color:rgba(196,120,0,.3);color:var(--amber);}
+.cc-ros{border-color:rgba(74,127,255,.2);color:var(--accent);}
+
+/* POPOVER */
+.pop{display:none;position:absolute;top:calc(100% + 6px);left:0;background:var(--surface);border:1px solid var(--border2);border-radius:var(--r2);box-shadow:0 6px 24px var(--shadow2);min-width:200px;z-index:200;overflow:hidden;}
+.pop.open{display:block;}
+.pop-search{padding:8px 10px;border-bottom:1px solid var(--border);position:relative;}
+.pop-search input{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:var(--r3);padding:5px 8px 5px 26px;font-size:12px;color:var(--text);font-family:var(--fb);outline:none;transition:border-color .15s;}
+.pop-search input:focus{border-color:var(--accent);}
+.pop-search input::placeholder{color:var(--text3);}
+.pop-search i{position:absolute;left:18px;top:50%;transform:translateY(-50%);color:var(--text3);font-size:10px;pointer-events:none;}
+.pop-body{max-height:220px;overflow-y:auto;}
+.pop-body::-webkit-scrollbar{width:3px;}
+.pop-body::-webkit-scrollbar-thumb{background:var(--border2);}
+.pop-group-lbl{font-size:10px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--text3);padding:7px 12px 3px;display:flex;align-items:center;gap:5px;}
+.pop-opt{padding:7px 12px 7px 20px;font-size:12px;color:var(--text2);cursor:pointer;transition:background .1s;display:flex;align-items:center;gap:6px;}
+.pop-opt:hover{background:var(--surface2);color:var(--text);}
+.pop-opt.active{color:var(--accent);background:rgba(74,127,255,.05);}
+.pop-opt.group-opt{padding-left:12px;font-weight:500;color:var(--text);}
+.pop-divider{height:1px;background:var(--border);margin:3px 0;}
+.time-pop{min-width:170px;}
+.time-opt{padding:8px 14px;font-size:12px;color:var(--text2);cursor:pointer;transition:background .1s;display:flex;align-items:center;justify-content:space-between;}
+.time-opt:hover{background:var(--surface2);color:var(--text);}
+.time-opt.active{color:var(--accent);}
+.custom-range{padding:8px 12px;border-top:1px solid var(--border);}
+.cr-lbl{font-size:10px;color:var(--text3);letter-spacing:.5px;text-transform:uppercase;margin-bottom:5px;}
+.cr-inputs{display:flex;gap:6px;align-items:center;}
+.cr-inputs input{flex:1;background:var(--surface2);border:1px solid var(--border);border-radius:var(--r3);padding:5px 7px;font-size:12px;color:var(--text);font-family:var(--fb);outline:none;width:0;}
+.cr-inputs input:focus{border-color:var(--accent);}
+.cr-inputs span{font-size:10px;color:var(--text3);}
+.cr-apply{margin-top:6px;width:100%;background:var(--accent);border:none;border-radius:var(--r3);padding:6px;font-size:12px;color:#fff;cursor:pointer;font-family:var(--fb);}
+
+/* INSIGHT CARD — V7: no card boxing, generous whitespace, hero action */
+.icard{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:var(--s6);}
+
+/* Recommended action = HERO */
+.ic-action{padding:0 0 28px;}
+.ic-albl{font-size:10px;color:var(--text3);letter-spacing:1px;text-transform:uppercase;margin-bottom:14px;display:flex;align-items:center;gap:5px;font-weight:600;}
+.ic-atxt{font-family:var(--fh);font-size:24px;font-weight:600;line-height:1.25;letter-spacing:-.5px;margin-bottom:12px;}
+.ic-rec{font-size:13px;color:var(--green);display:flex;align-items:center;gap:5px;line-height:1.5;}
+.ic-risk{font-size:13px;color:var(--red);display:flex;align-items:center;gap:5px;line-height:1.5;}
+.ic-btns{display:flex;gap:8px;margin-top:20px;flex-wrap:wrap;}
+
+/* Why — clean divider, no background */
+.ic-why{padding:24px 0;border-top:1px solid var(--border);}
+.ic-why-lbl{font-size:10px;color:var(--text3);letter-spacing:1px;text-transform:uppercase;margin-bottom:12px;font-weight:600;}
+.ic-why-txt{font-size:14px;color:var(--text2);line-height:1.8;}
+.consequence{display:flex;align-items:center;gap:6px;margin-top:14px;font-size:13px;color:var(--red);}
+.tdir{display:inline-flex;align-items:center;gap:5px;font-size:12px;padding:4px 11px;border-radius:var(--rpill);margin-top:10px;}
+.td-bad{background:rgba(217,53,53,.08);color:var(--red);}
+.td-ok{background:rgba(196,120,0,.08);color:var(--amber);}
+.td-good{background:rgba(22,160,92,.08);color:var(--green);}
+.city-split{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);margin:0 0 28px;}
+.city-col{background:var(--surface);padding:18px;}
+.city-col-lbl{font-size:10px;font-weight:600;letter-spacing:1px;text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;gap:5px;}
+
+/* Confidence = source list, not a metric */
+.ic-conf{padding:24px 0;border-top:1px solid var(--border);}
+.conf-lbl{font-size:10px;color:var(--text3);letter-spacing:1px;text-transform:uppercase;margin-bottom:12px;font-weight:600;}
+.conf-sources{display:flex;flex-direction:column;gap:7px;}
+.conf-src{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text2);}
+.conf-src i{color:var(--green);font-size:10px;width:14px;}
+.conf-word{margin-top:12px;font-size:12px;color:var(--text3);}
+
+/* Evidence = Perplexity-style sources */
+.ev-toggle{padding:0 0 8px;display:flex;align-items:center;gap:6px;cursor:pointer;font-size:12px;color:var(--text3);transition:color .15s;user-select:none;}
+.ev-toggle:hover{color:var(--text2);}
+.ev-toggle i.arr{transition:transform .2s;font-size:10px;}
+.ev-toggle.open i.arr{transform:rotate(180deg);}
+.ev-body{display:none;flex-direction:column;gap:8px;padding-top:10px;padding-bottom:4px;}
+.ev-body.open{display:flex;}
+.ev-row{display:flex;align-items:flex-start;gap:10px;font-size:12px;color:var(--text2);}
+.ev-src-label{font-weight:600;color:var(--text);min-width:54px;flex-shrink:0;}
+
+/* Export — minimal links */
+.export-strip{padding:18px 0 0;display:flex;align-items:center;gap:4px;border-top:1px solid var(--border);}
+.exp-lbl{font-size:10px;color:var(--text3);margin-right:4px;}
+.exp-btn{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:var(--rpill);font-size:10px;color:var(--text3);cursor:pointer;transition:all .15s;background:transparent;font-family:var(--fb);border:none;}
+.exp-btn:hover{color:var(--accent);}
+.exp-btn i{font-size:10px;}
+
+.ctbl{width:100%;border-collapse:collapse;font-size:12px;}
+.ctbl th{text-align:left;padding:7px 10px;color:var(--text3);font-size:10px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;border-bottom:1px solid var(--border);}
+.ctbl td{padding:9px 10px;border-bottom:1px solid var(--border);color:var(--text2);}
+.ctbl tr:last-child td{border-bottom:none;}
+.ctbl tr:hover td{background:var(--surface2);}
+.ctbl td:first-child{color:var(--text);font-weight:500;}
+.vr{color:var(--red)!important;}.vg{color:var(--green)!important;}.va{color:var(--amber)!important;}
+.tag-w{display:inline-flex;align-items:center;gap:2px;background:rgba(22,160,92,.1);border:1px solid rgba(22,160,92,.2);color:var(--green);font-size:10px;padding:1px 5px;border-radius:var(--rpill);margin-left:3px;}
+.tag-l{display:inline-flex;align-items:center;gap:2px;background:rgba(217,53,53,.1);border:1px solid rgba(217,53,53,.2);color:var(--red);font-size:10px;padding:1px 5px;border-radius:var(--rpill);margin-left:3px;}
+.spark-wrap{padding:24px 0;border-top:1px solid var(--border);}
+.spark-lbl{font-size:10px;color:var(--text3);letter-spacing:.5px;text-transform:uppercase;margin-bottom:10px;font-weight:600;}
+.typing{display:flex;align-items:center;gap:3px;padding:9px 12px;background:var(--surface2);border-radius:var(--r2);width:fit-content;}
+.typing span{width:5px;height:5px;background:var(--text3);border-radius:50%;animation:bounce 1.2s infinite;}
+.typing span:nth-child(2){animation-delay:.2s;}
+.typing span:nth-child(3){animation-delay:.4s;}
+@keyframes bounce{0%,80%,100%{transform:translateY(0);}40%{transform:translateY(-5px);}}
+
+.input-area{padding:14px 40px 18px;border-top:1px solid var(--border);flex-shrink:0;background:var(--bg);transition:background .25s,border-color .25s;}
+.dyn-suggest{display:flex;align-items:center;gap:6px;margin-bottom:9px;flex-wrap:wrap;}
+.dyn-text{font-size:12px;color:var(--text3);}
+.dyn-btn{background:var(--surface);border:1px solid var(--border2);border-radius:var(--rpill);padding:5px 12px;font-size:12px;color:var(--text2);cursor:pointer;transition:all .15s;font-family:var(--fb);white-space:nowrap;}
+.dyn-btn:hover{border-color:var(--accent);color:var(--text);}
+.input-row{display:flex;gap:8px;align-items:flex-end;}
+.ibox{flex:1;background:var(--surface);border:1px solid var(--border);border-radius:var(--r2);padding:12px 16px;color:var(--text);font-size:13px;font-family:var(--fb);resize:none;outline:none;transition:border-color .15s;line-height:1.5;max-height:120px;min-height:46px;}
+.ibox:focus{border-color:var(--accent);}
+.ibox::placeholder{color:var(--text3);}
+.sbtn{width:44px;height:44px;border-radius:var(--r2);background:var(--accent);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#fff;font-size:14px;transition:opacity .15s;flex-shrink:0;}
+.sbtn:hover{opacity:.88;}
+.sbtn:disabled{opacity:.4;cursor:not-allowed;}
+
+/* delegate modal */
+.del-bg{position:fixed;inset:0;background:rgba(0,0,0,.45);display:none;align-items:center;justify-content:center;z-index:300;}
+.del-bg.open{display:flex;}
+.del-modal{background:var(--surface);border:1px solid var(--border2);border-radius:var(--r);padding:28px 30px;width:420px;max-width:90vw;box-shadow:0 12px 48px var(--shadow2);}
+.del-title{font-family:var(--fh);font-size:16px;font-weight:600;margin-bottom:3px;}
+.del-sub{font-size:12px;color:var(--text3);margin-bottom:14px;}
+.del-msg{background:var(--surface2);border-radius:var(--r2);padding:14px 16px;font-size:13px;color:var(--text2);line-height:1.75;margin-bottom:16px;}
+.del-btns{display:flex;gap:8px;justify-content:flex-end;}
+.del-cancel{background:transparent;border:1px solid var(--border2);border-radius:var(--r2);padding:9px 18px;font-size:13px;color:var(--text2);cursor:pointer;font-family:var(--fb);}
+.del-send{background:var(--wa);border:none;border-radius:var(--r2);padding:9px 18px;font-size:13px;color:#fff;font-weight:600;cursor:pointer;font-family:var(--fb);display:flex;align-items:center;gap:5px;}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+.fi{animation:fadeUp .24s ease forwards;}
+
+/* ACTION PAGE TABS */
+.act-tab{background:var(--surface2);border:1px solid var(--border2);border-radius:var(--rpill);padding:6px 14px;font-size:12px;font-weight:500;color:var(--text2);cursor:pointer;font-family:var(--fb);display:inline-flex;align-items:center;gap:5px;transition:all .15s;}
+.act-tab:hover{border-color:var(--accent);color:var(--text);}
+.act-tab.act-tab-on{background:var(--accent);border-color:var(--accent);color:#fff;}
+</style>
+</head>
+<body>
+
+<div class="del-bg" id="delModal">
+  <div class="del-modal">
+    <div class="del-title">Send to <span id="delName"></span></div>
+    <div class="del-sub">via WhatsApp · notified immediately</div>
+    <div class="del-msg" id="delMsg"></div>
+    <div class="del-btns">
+      <button class="del-cancel" onclick="closeDelegate()">Cancel</button>
+      <button class="del-send" onclick="confirmDelegate()"><i class="fa-brands fa-whatsapp"></i> Send now</button>
+    </div>
+  </div>
+</div>
+
+<div class="app">
+  <!-- SIDEBAR: simplified nav — Home, Investigations, Actions only -->
+  <div class="sidebar">
+    <div class="sb-head">
+      <div class="logo"><div class="logo-dot"></div>RoamIQ</div>
+      <div class="logo-tag">Restaurant Intelligence</div>
+      <button class="new-thread-btn" onclick="newThread()"><i class="fa-solid fa-plus"></i> New conversation</button>
+    </div>
+
+    <div class="sb-scroll">
+      <div class="sb-sec">
+        <div class="sb-lbl">Navigation</div>
+        <div class="nav on" id="nav-home" onclick="switchPage('home')"><i class="fa-solid fa-house"></i> Home</div>
+        <div class="nav" id="nav-investigations" onclick="switchPage('investigations')"><i class="fa-solid fa-magnifying-glass"></i> Investigations <span class="nbadge">3</span></div>
+        <div class="nav" id="nav-actions" onclick="switchPage('actions')"><i class="fa-solid fa-bolt"></i> Actions</div>
+      </div>
+
+      <div class="sb-sec">
+        <div class="sb-lbl">Quick Ask</div>
+        <div class="city-grp">
+          <div class="city-lbl"><span style="background:var(--accent)"></span>Hyderabad</div>
+          <div class="nav" onclick="sq('Why is Hyderabad revenue down?')"><i class="fa-solid fa-arrow-trend-down" style="color:var(--red)"></i> Revenue drop</div>
+          <div class="nav" onclick="sq('Why did ratings drop in Jubilee Hills?')"><i class="fa-solid fa-star-half-stroke" style="color:var(--amber)"></i> Jubilee Hills ratings</div>
+        </div>
+        <div class="city-grp">
+          <div class="city-lbl"><span style="background:var(--accent)"></span>Bangalore</div>
+          <div class="nav" onclick="sq('Which Bangalore stores are understaffed tonight?')"><i class="fa-solid fa-user-xmark" style="color:var(--amber)"></i> Staffing check</div>
+          <div class="nav" onclick="sq('Summarize Koramangala customer complaints')"><i class="fa-solid fa-comment-dots" style="color:var(--text3)"></i> Koramangala feedback</div>
+        </div>
+        <div class="nav" style="margin-top:2px;" onclick="sq('Compare all store performance this month')"><i class="fa-solid fa-code-compare" style="color:var(--text3)"></i> Compare all stores</div>
+      </div>
+
+      <div class="sb-sec">
+        <div class="sb-lbl">History</div>
+        <div class="hist-search-wrap hist-search">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input class="hist-search-box" id="histSearch" placeholder="Search conversations…" oninput="filterHistory(this.value)">
+        </div>
+        <div id="histList"></div>
+      </div>
+    </div>
+
+    <div class="sb-sources">
+      <div class="sb-lbl" style="margin-bottom:8px;">Connected sources</div>
+      <div class="sources-row">
+        <div class="src-dot"><span></span>POS</div>
+        <div class="src-dot"><span></span>Camera</div>
+        <div class="src-dot"><span></span>Reviews</div>
+        <div class="src-dot"><span></span>Roster</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <div class="main">
+    <div class="topbar">
+      <div>
+        <div class="t-name" id="topbarTitle">Good morning, Arjun</div>
+        <div class="t-sub" id="topbarSub">Monday, 8 June 2026</div>
+      </div>
+      <div class="tg" onclick="toggleTheme()">
+        <span class="tg-lbl" id="themeLabel">Light</span>
+        <div class="tg-track"><div class="tg-thumb"></div></div>
+      </div>
+    </div>
+
+    <div class="past-banner" id="pastBanner">
+      <div class="past-banner-txt"><i class="fa-solid fa-clock-rotate-left"></i> You're viewing a past conversation — read only</div>
+      <button class="past-banner-btn" onclick="newThread()">Start new conversation</button>
+    </div>
+
+    <div class="chat" id="chat"></div>
+
+    <div class="input-area" id="inputArea">
+      <div class="dyn-suggest" id="dynSuggest">
+        <span class="dyn-text">Pick up where we left off?</span>
+        <button class="dyn-btn" onclick="sq('Why did ratings drop in Jubilee Hills?')">Jubilee Hills ratings →</button>
+        <button class="dyn-btn" onclick="sq('Which Bangalore stores are understaffed tonight?')">Bangalore staffing</button>
+        <button class="dyn-btn" onclick="sq('Compare all store performance this month')">Compare both cities</button>
+      </div>
+      <div class="input-row">
+        <textarea class="ibox" id="ibox" placeholder="Ask about any store or city…" rows="1" onkeydown="hk(event)" oninput="ar(this)"></textarea>
+        <button class="sbtn" id="sbtn" onclick="hs()"><i class="fa-solid fa-paper-plane"></i></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const TIME_OPTS = ['Today','Yesterday','Last 7 days','Last 30 days','This month','Last month','This weekend','Custom range'];
+
+let threads = [
+  { id:'t1', title:'Hyderabad revenue drop', time:'Yesterday', meta:'Staffing fix sent to Priya', msgs:[] },
+  { id:'t2', title:'Weekend forecast — both cities', time:'2 days ago', meta:'Bangalore strong, Jubilee Hills flagged', msgs:[] },
+  { id:'t3', title:'Koramangala complaints', time:'3 days ago', meta:'22 negative reviews, staffing correlated', msgs:[] },
+  { id:'t4', title:'Monthly store comparison', time:'Last week', meta:'Indiranagar top performer', msgs:[] },
+];
+let activeThreadId = 'current';
+let isPastThread = false;
+
+const chatEl = document.getElementById('chat');
+const ibox = document.getElementById('ibox');
+const sbtn = document.getElementById('sbtn');
+
+renderHistory();
+renderCurrentThread();
+
+function renderCurrentThread() {
+  chatEl.innerHTML = '';
+  isPastThread = false;
+  document.getElementById('pastBanner').classList.remove('show');
+  document.getElementById('inputArea').style.opacity = '1';
+  document.getElementById('inputArea').style.pointerEvents = 'auto';
+  ibox.disabled = false;
+  sbtn.disabled = false;
+  addResolutionCard();
+  addBriefingCard();
+  sb();
+}
+
+function renderHistory() {
+  const q = document.getElementById('histSearch').value.toLowerCase();
+  const list = document.getElementById('histList');
+  const groups = { 'Today': [], 'Yesterday': [], '2 days ago': [], '3 days ago': [], 'Last week': [] };
+  threads.forEach(t => {
+    if (!q || t.title.toLowerCase().includes(q) || t.meta.toLowerCase().includes(q)) {
+      if (!groups[t.time]) groups[t.time] = [];
+      groups[t.time].push(t);
+    }
+  });
+  const groupOrder = ['Today','Yesterday','2 days ago','3 days ago','Last week'];
+  list.innerHTML = groupOrder.map(g => {
+    if (!groups[g] || !groups[g].length) return '';
+    const items = groups[g].map(t => `
+      <div class="hist-item${activeThreadId===t.id?' active':''}" onclick="loadThread('${t.id}')">
+        <div class="hist-title">${t.title}</div>
+        <div class="hist-meta">${t.meta}</div>
+      </div>`).join('');
+    return `<div class="hist-group-lbl">${g}</div>${items}`;
+  }).join('');
+}
+
+function filterHistory(q) { renderHistory(); }
+
+function loadThread(id) {
+  const t = threads.find(x => x.id === id);
+  if (!t) return;
+  activeThreadId = id;
+  isPastThread = true;
+  chatEl.innerHTML = '';
+  document.getElementById('pastBanner').classList.add('show');
+  document.getElementById('inputArea').style.opacity = '0.4';
+  document.getElementById('inputArea').style.pointerEvents = 'none';
+  document.getElementById('topbarTitle').textContent = t.title;
+  const pastMsgs = getPastMsgs(t.id);
+  pastMsgs.forEach(m => {
+    if (m.role === 'user') { const el=document.createElement('div');el.className='umsg fi';el.innerHTML=`<div class="ubub">${esc(m.text)}</div>`;chatEl.appendChild(el); }
+    else { const el=document.createElement('div');el.className='amsg fi';el.innerHTML=m.html;chatEl.appendChild(el); wireCard(el); }
+  });
+  renderHistory();
+  sb();
+}
+
+function getPastMsgs(id) {
+  const map = {
+    t1: [{role:'user',text:'Why is Hyderabad revenue down?'},{role:'ai',html: buildAIWrap(ctxWrap('Hyderabad (main)','last 30 days',['POS','Camera','Roster'],null), bRootCauseCard())}],
+    t2: [{role:'user',text:'Forecast weekend sales for all stores'},{role:'ai',html: buildAIWrap(ctxWrap('All stores','this weekend',['POS'],null), bForecastCard())}],
+    t3: [{role:'user',text:'Summarize Koramangala customer complaints'},{role:'ai',html: buildAIWrap(ctxWrap('Koramangala, Bangalore','last 7 days',['Reviews','Roster'],null), bSentimentCard())}],
+    t4: [{role:'user',text:'Compare all store performance this month'},{role:'ai',html: buildAIWrap(ctxWrap('All stores','this month',['POS','Reviews'],null), bCompareCard())}]
+  };
+  return map[id] || [];
+}
+
+function newThread() {
+  activeThreadId = 'current';
+  document.getElementById('topbarTitle').textContent = 'Good morning, Arjun';
+  document.getElementById('topbarSub').textContent = 'Monday, 8 June 2026';
+  renderCurrentThread();
+  renderHistory();
+}
+
+function toggleTheme() {
+  const h = document.documentElement;
+  const isLight = h.getAttribute('data-theme') === 'light';
+  h.setAttribute('data-theme', isLight ? 'dark' : 'light');
+  document.getElementById('themeLabel').textContent = isLight ? 'Dark' : 'Light';
+}
+
+function ar(el){el.style.height='auto';el.style.height=Math.min(el.scrollHeight,120)+'px';}
+function hk(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();hs();}}
+function sb(){setTimeout(()=>chatEl.scrollTo({top:chatEl.scrollHeight,behavior:'smooth'}),60);}
+function sq(t){
+  if(currentPage!=='home'){switchPage('home');setTimeout(()=>{ibox.value=t;hs();},80);return;}
+  if(isPastThread)return;ibox.value=t;hs();
+}
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+function hs(){
+  if(isPastThread)return;
+  const t=ibox.value.trim();if(!t)return;
+  ibox.value='';ar(ibox);
+  const el=document.createElement('div');el.className='umsg fi';
+  el.innerHTML=`<div class="ubub">${esc(t)}</div>
+    <div class="umsg-actions">
+      <button class="umsg-act" onclick="editMsg(this,'${esc(t).replace(/'/g,"\\'")}')"><i class="fa-solid fa-pen" style="font-size:10px;"></i> Edit</button>
+      <button class="umsg-act" onclick="navigator.clipboard.writeText('${esc(t).replace(/'/g,"\\'")}');showToast('Copied')"><i class="fa-solid fa-copy" style="font-size:10px;"></i> Copy</button>
+      <button class="umsg-act" onclick="retryLast()"><i class="fa-solid fa-rotate-right" style="font-size:10px;"></i> Retry</button>
+    </div>`;
+  chatEl.appendChild(el);sb();
+  sbtn.disabled=true;showTyping();
+  setTimeout(()=>{rmTyping();processAI(t);sbtn.disabled=false;},1000+Math.random()*600);
+  const title = t.length > 40 ? t.slice(0,40)+'…' : t;
+  if (!threads.find(x=>x.id==='current-saved')) {
+    threads.unshift({id:'current-saved',title,time:'Today',meta:t,msgs:[]});
+  }
+  renderHistory();
+}
+
+function editMsg(btn, originalText){
+  ibox.value = originalText;
+  ibox.focus();
+  ar(ibox);
+}
+
+let lastQuery = '';
+function retryLast(){
+  if(!lastQuery) return;
+  showTyping();
+  sbtn.disabled=true;
+  setTimeout(()=>{rmTyping();processAI(lastQuery);sbtn.disabled=false;},1000+Math.random()*400);
+}
+
+let tyEl=null;
+function showTyping(){tyEl=document.createElement('div');tyEl.className='amsg fi';tyEl.innerHTML=`<div class="ai-row"><div class="av">IQ</div><span class="ai-meta">RoamIQ · thinking…</span></div><div class="typing"><span></span><span></span><span></span></div>`;chatEl.appendChild(tyEl);sb();}
+function rmTyping(){if(tyEl){chatEl.removeChild(tyEl);tyEl=null;}}
+
+function processAI(q){
+  lastQuery = q;
+  const ql=q.toLowerCase();
+  let scope='All stores', time='last 30 days', sources=['POS'], disambig=null, cardFn;
+  if(ql.includes('hyderabad')&&(ql.includes('revenue')||ql.includes('down'))){scope='Hyderabad (main)';time='last 30 days';sources=['POS','Camera','Roster'];cardFn=bRootCauseCard;}
+  else if(ql.includes('compare')||(ql.includes('performance')&&ql.includes('store'))||(ql.includes('all')&&ql.includes('store'))){scope='All stores';time='this month';sources=['POS','Reviews'];cardFn=bCompareCard;}
+  else if(ql.includes('complaint')||ql.includes('feedback')||(ql.includes('koramangala')&&!ql.includes('staff'))){scope='Koramangala, Bangalore';time='last 7 days';sources=['Reviews','Roster'];cardFn=bSentimentCard;}
+  else if(ql.includes('understaff')||ql.includes('staff')){scope='All stores';time='tonight';sources=['Roster','POS'];cardFn=bStaffCard;}
+  else if(ql.includes('rating')||ql.includes('jubilee')){scope='Jubilee Hills, Hyderabad';time='last 30 days';sources=['Reviews','POS'];cardFn=bRatingsCard;}
+  else if(ql.includes('forecast')||ql.includes('weekend')){scope='All stores';time='this weekend';sources=['POS'];cardFn=bForecastCard;}
+  else if(ql.includes('banjara')){scope='Banjara Hills';time='last 30 days';sources=['POS','Reviews'];cardFn=bBanjaraCard;}
+  else if(ql.includes('indiranagar')){scope='Indiranagar';time='last 30 days';sources=['POS','Reviews'];cardFn=bIndiranagaCard;}
+  else if(ql.includes('whitefield')){scope='Whitefield';time='last 30 days';sources=['POS','Reviews'];cardFn=bWhitefieldCard;}
+  else if(ql.includes('revenue')&&!ql.includes('hyderabad')){scope='All Hyderabad';time='this month';sources=['POS'];disambig='Revenue is <strong style="color:var(--red)">down in Hyderabad</strong> but <strong style="color:var(--green)">up in Bangalore</strong>. Showing Hyderabad — <a onclick="sq(\'Compare all store performance this month\')">see both cities</a>';cardFn=bAmbiguousCard;}
+  else{scope='All stores';time='last 30 days';sources=['POS'];cardFn=()=>bGenericCard(q);}
+  const ctx=ctxWrap(scope,time,sources,disambig);
+  const html=buildAIWrap(ctx,cardFn());
+  const el=document.createElement('div');el.className='amsg fi';el.innerHTML=html;
+  chatEl.appendChild(el);sb();drawSparks();wireCard(el);
+}
+
+function wireCard(el){
+  el.querySelectorAll('.ev-toggle').forEach(t=>{t.addEventListener('click',()=>{t.classList.toggle('open');t.nextElementSibling.classList.toggle('open');});});
+  el.querySelectorAll('.ctx-how').forEach(btn=>{btn.addEventListener('click',()=>{const c=btn.closest('.ctx-wrap').querySelector('.ctx-chips-src');c.classList.toggle('open');btn.innerHTML=c.classList.contains('open')?'<i class="fa-solid fa-eye-slash"></i> hide sources':'<i class="fa-solid fa-circle-info"></i> how do I know?';});});
+  el.querySelectorAll('[data-pop]').forEach(chip=>{
+    const pop=chip.querySelector('.pop');
+    chip.addEventListener('click',(e)=>{e.stopPropagation();document.querySelectorAll('.pop.open').forEach(p=>{if(p!==pop)p.classList.remove('open');});pop.classList.toggle('open');});
+  });
+  el.querySelectorAll('.pop-opt').forEach(opt=>{
+    opt.addEventListener('click',(e)=>{
+      e.stopPropagation();const chip=opt.closest('[data-pop]');const pop=opt.closest('.pop');
+      const txt=opt.dataset.val||opt.textContent.trim();
+      chip.querySelector('.chip-txt').textContent=txt;
+      pop.querySelectorAll('.pop-opt').forEach(o=>o.classList.remove('active'));opt.classList.add('active');pop.classList.remove('open');
+      const ov=chip.closest('.ctx-wrap').querySelector('.ctx-override');if(ov){ov.style.display='flex';}
+    });
+  });
+  el.querySelectorAll('.pop-search input').forEach(inp=>{
+    inp.addEventListener('input',(e)=>{e.stopPropagation();const q=e.target.value.toLowerCase();const pop=inp.closest('.pop');pop.querySelectorAll('.pop-opt').forEach(opt=>{opt.style.display=opt.textContent.toLowerCase().includes(q)?'':'none';});});
+    inp.addEventListener('click',e=>e.stopPropagation());
+  });
+  el.querySelectorAll('.time-opt').forEach(opt=>{
+    opt.addEventListener('click',(e)=>{e.stopPropagation();const chip=opt.closest('[data-pop]');const pop=opt.closest('.pop');chip.querySelector('.chip-txt').textContent=opt.dataset.val;pop.querySelectorAll('.time-opt').forEach(o=>o.classList.remove('active'));opt.classList.add('active');if(opt.dataset.val!=='Custom range')pop.classList.remove('open');const ov=chip.closest('.ctx-wrap').querySelector('.ctx-override');if(ov)ov.style.display='flex';});
+  });
+  el.querySelectorAll('.cr-apply').forEach(btn=>{
+    btn.addEventListener('click',(e)=>{e.stopPropagation();const pop=btn.closest('.pop');const chip=btn.closest('[data-pop]');const from=pop.querySelector('.cr-from').value;const to=pop.querySelector('.cr-to').value;if(from&&to){chip.querySelector('.chip-txt').textContent=`${from} – ${to}`;pop.classList.remove('open');}});
+  });
+  el.querySelectorAll('.revert-scope').forEach(a=>{a.addEventListener('click',()=>{const ov=a.closest('.ctx-override');const chip=a.closest('.ctx-wrap').querySelector('[data-pop="scope"]');if(chip){chip.querySelector('.chip-txt').textContent=chip.dataset.original||'';ov.style.display='none';}});});
+  document.addEventListener('click',()=>document.querySelectorAll('.pop.open').forEach(p=>p.classList.remove('open')));
+}
+
+function ctxWrap(scope,time,sources,disambig){
+  const mp={POS:'cc-pos',Camera:'cc-cam',Reviews:'cc-rev',Roster:'cc-ros'};
+  const chips=sources.map(s=>`<span class="cchip ${mp[s]||''}"><i class="fa-solid fa-database"></i>${s}</span>`).join('');
+  const dLine=disambig?`<div class="ctx-disambig"><i class="fa-solid fa-circle-info"></i>${disambig}</div>`:'';
+  const storeOpts = `
+    <div class="pop-group-lbl">All</div>
+    <div class="pop-opt group-opt active" data-val="All Stores">All Stores</div>
+    <div class="pop-divider"></div>
+    <div class="pop-group-lbl"><i class="fa-solid fa-circle" style="font-size:10px;color:var(--accent)"></i> Hyderabad</div>
+    <div class="pop-opt" data-val="All Hyderabad">All Hyderabad</div>
+    <div class="pop-opt" data-val="Banjara Hills">Banjara Hills</div>
+    <div class="pop-opt" data-val="Jubilee Hills">Jubilee Hills</div>
+    <div class="pop-opt" data-val="Hyderabad (main)">Hyderabad (main)</div>
+    <div class="pop-divider"></div>
+    <div class="pop-group-lbl"><i class="fa-solid fa-circle" style="font-size:10px;color:var(--accent)"></i> Bangalore</div>
+    <div class="pop-opt" data-val="All Bangalore">All Bangalore</div>
+    <div class="pop-opt" data-val="Indiranagar">Indiranagar</div>
+    <div class="pop-opt" data-val="Koramangala">Koramangala</div>
+    <div class="pop-opt" data-val="Whitefield">Whitefield</div>`;
+  const timeOpts = TIME_OPTS.map(t=>`<div class="time-opt${t===time?' active':''}" data-val="${t}">${t}${t===time?'<i class="fa-solid fa-check" style="font-size:10px;color:var(--accent)"></i>':''}</div>`).join('');
+  return `<div class="ctx-wrap">
+    <div class="ctx-line">
+      <span class="ctx-chip-edit" data-pop="scope" data-original="${scope}">
+        <i class="lead fa-solid fa-location-dot"></i>
+        <span class="chip-txt">${scope}</span>
+        <i class="arr fa-solid fa-chevron-down"></i>
+        <div class="pop">
+          <div class="pop-search"><i class="fa-solid fa-magnifying-glass"></i><input placeholder="Search stores…" onclick="event.stopPropagation()"></div>
+          <div class="pop-body">${storeOpts}</div>
+        </div>
+      </span>
+      <span class="ctx-sep">·</span>
+      <span class="ctx-chip-edit" data-pop="time">
+        <i class="lead fa-regular fa-calendar"></i>
+        <span class="chip-txt">${time}</span>
+        <i class="arr fa-solid fa-chevron-down"></i>
+        <div class="pop time-pop">
+          <div class="pop-body">${timeOpts}
+            <div class="custom-range">
+              <div class="cr-lbl">Custom range</div>
+              <div class="cr-inputs">
+                <input class="cr-from" type="date" onclick="event.stopPropagation()">
+                <span>→</span>
+                <input class="cr-to" type="date" onclick="event.stopPropagation()">
+              </div>
+              <button class="cr-apply" onclick="event.stopPropagation()">Apply</button>
+            </div>
+          </div>
+        </div>
+      </span>
+      <span class="ctx-how"><i class="fa-solid fa-circle-info"></i> how do I know?</span>
+    </div>
+    <div class="ctx-override" style="display:none;"><i class="fa-solid fa-pen-to-square" style="font-size:10px;color:var(--text3)"></i><span style="font-size:12px;color:var(--text3)">Scope overridden —</span><a class="revert-scope">revert to AI's choice</a></div>
+    ${dLine}
+    <div class="ctx-chips-src">${chips}</div>
+  </div>`;
+}
+
+function buildAIWrap(ctx,card){return `<div class="ai-row"><div class="av">IQ</div><span class="ai-meta">RoamIQ · just now</span></div>${ctx}${card}`;}
+
+/* Confidence score + expandable reasoning + sources */
+let confIdCounter = 0;
+function confSection(level, reason, rows){
+  const id = 'conf-' + (++confIdCounter);
+  const cfg = {
+    'High':   { color:'var(--green)',  bg:'rgba(22,160,92,.08)',  icon:'fa-circle-check',       score:'High' },
+    'Medium': { color:'var(--amber)',  bg:'rgba(196,120,0,.08)',  icon:'fa-circle-half-stroke',  score:'Medium' },
+    'Low':    { color:'var(--red)',    bg:'rgba(217,53,53,.08)',  icon:'fa-circle-exclamation',  score:'Low' }
+  };
+  const lvl = level.toLowerCase().includes('high') ? 'High' : level.toLowerCase().includes('fairly') ? 'Medium' : 'Low';
+  const c = cfg[lvl];
+  const srcCount = rows.length;
+  const srcItems = rows.map(r=>
+    `<div style="display:grid;grid-template-columns:80px 1fr auto;gap:16px;padding:6px 0;border-bottom:1px solid var(--border);align-items:center;">
+      <span style="font-size:13px;font-weight:600;color:var(--text);">${r.source}</span>
+      <span style="font-size:13px;color:var(--text2);line-height:1.55;">${r.t}</span>
+      <i class="fa-solid fa-arrow-up-right-from-square" style="font-size:10px;color:var(--text3);cursor:pointer;" onclick="showToast('Opening ${r.source} data…')" title="View source"></i>
+    </div>`
+  ).join('');
+  return `<div style="border-top:1px solid var(--border);margin-top:24px;padding-top:20px;">
+    <div onclick="toggleConf('${id}')" style="display:flex;align-items:center;gap:10px;cursor:pointer;user-select:none;">
+      <span style="display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:600;padding:4px 12px;border-radius:var(--rpill);background:${c.bg};color:${c.color};">
+        <i class="fa-solid ${c.icon}" style="font-size:10px;"></i> ${c.score} confidence
+      </span>
+      <span style="font-size:12px;color:var(--text3);">· ${srcCount} source${srcCount!==1?'s':''}</span>
+      <span id="${id}-arr" style="font-size:10px;color:var(--text3);margin-left:auto;transition:transform .2s;display:inline-block;">▼</span>
+    </div>
+    <div id="${id}" style="display:none;padding-top:16px;">
+      <div style="font-size:13px;color:var(--text2);line-height:1.65;margin-bottom:16px;padding-bottom:16px;border-bottom:1px solid var(--border);">${reason}</div>
+      <div>${srcItems}</div>
+    </div>
+  </div>`;
+}
+
+function toggleConf(id){
+  const el=document.getElementById(id);
+  const arr=document.getElementById(id+'-arr');
+  const open=el.style.display==='block';
+  el.style.display=open?'none':'block';
+  arr.style.transform=open?'rotate(0deg)':'rotate(180deg)';
+}
+
+function exportStrip(hasTable){
+  const csv=hasTable?`<button class="exp-btn" onclick="showToast('CSV downloaded')"><i class="fa-solid fa-table"></i> CSV</button>`:'';
+  return `<div class="export-strip"><span class="exp-lbl">Export</span><button class="exp-btn" onclick="showToast('PDF exported')"><i class="fa-solid fa-file-pdf"></i> PDF</button>${csv}<button class="exp-btn" onclick="showToast('Copied')"><i class="fa-solid fa-copy"></i> Copy</button><button class="exp-btn" style="margin-left:auto;" onclick="retryLast()"><i class="fa-solid fa-rotate-right"></i> Retry</button></div>`;}
+
+/* CARDS */
+function bRootCauseCard(){return `<div class="icard">
+  <div class="ic-action">
+    <div class="ic-albl"><i class="fa-solid fa-bolt"></i> Recommended action</div>
+    <div class="ic-atxt">Lock in Friday dinner staffing for the rest of the month</div>
+    <div class="ic-rec"><i class="fa-solid fa-arrow-trend-up"></i> Friday recovered ₹14K — expected to recover ₹1.2L this month</div>
+    <div class="ic-btns">
+      <button class="btn-wa" onclick="openDelegate('Priya (Hyderabad main)','Hi Priya — great work on the staffing fix. Can you confirm the same 2-staff arrangement every Friday and Saturday this month? Want to lock this in consistently.')"><i class="fa-brands fa-whatsapp"></i> Lock in with Priya</button>
+      <button class="btn-g" onclick="sq('Compare all store performance this month')"><i class="fa-solid fa-code-compare"></i> Compare cities</button>
+    </div>
+  </div>
+  <div class="ic-why">
+    <div class="ic-why-lbl">Why revenue was down</div>
+    <div class="ic-why-txt">Dinner shift understaffing caused a 31% drop in table turnover between 7–10 PM across 14 evenings. The store averaged 3 floor staff when 5 were needed. Friday's staffing fix reversed the trend — revenue recovered ₹14K. Needs to be sustained.</div>
+    <div class="consequence"><i class="fa-solid fa-triangle-exclamation"></i> Monthly target still ₹1.2L short — 3 more strong Fridays needed</div>
+  </div>
+  <div class="spark-wrap"><div class="spark-lbl">Daily revenue — last 30 days</div><canvas class="sparkline" height="46" style="display:block;width:100%;"></canvas></div>
+  ${confSection('High confidence','Revenue and camera data are consistent across 30 days. Camera walkout data directly corroborates the POS drop. Roster records confirm the staffing gap on the same evenings.',[{source:'POS',t:'Revenue ₹10.9L vs ₹12.7L prior. Friday last week up ₹14K — recovery started.'},{source:'Camera',t:'18 walkouts detected 7–9 PM over 14 evenings. Dropped to 2 after staffing fix.'},{source:'Roster',t:'9 of 14 evenings understaffed. Priya confirmed 2 extra for Friday.'}])}
+  ${exportStrip(false)}</div>`;}
+
+function bCompareCard(){return `<div class="icard">
+  <div class="ic-action">
+    <div class="ic-albl"><i class="fa-solid fa-bolt"></i> What needs attention</div>
+    <div class="ic-atxt">Jubilee Hills is the biggest open issue — Bangalore is strong</div>
+    <div class="ic-rec"><i class="fa-solid fa-arrow-trend-up"></i> Bangalore outperforming Hyderabad by 34% revenue this month</div>
+    <div class="ic-btns">
+      <button class="btn-p" onclick="sq('Why did ratings drop in Jubilee Hills?')"><i class="fa-solid fa-magnifying-glass"></i> Diagnose Jubilee Hills</button>
+      <button class="btn-g" onclick="sq('Forecast weekend sales for all stores')"><i class="fa-solid fa-calendar"></i> Weekend forecast</button>
+    </div>
+  </div>
+  <div class="city-split">
+    <div class="city-col">
+      <div class="city-col-lbl" style="color:var(--accent)"><i class="fa-solid fa-circle" style="font-size:10px"></i> Hyderabad</div>
+      <table class="ctbl"><thead><tr><th>Store</th><th>Revenue</th><th>vs Target</th><th>Rating</th></tr></thead><tbody>
+        <tr><td>Banjara Hills<span class="tag-w"><i class="fa-solid fa-trophy" style="font-size:10px"></i></span></td><td>₹18.4L</td><td class="vg">+8.2%</td><td class="vg">4.6★</td></tr>
+        <tr><td>Jubilee Hills<span class="tag-l"><i class="fa-solid fa-arrow-trend-down" style="font-size:10px"></i></span></td><td>₹11.8L</td><td class="vr">−6.3%</td><td class="vr">3.7★</td></tr>
+        <tr><td>Hyderabad main</td><td>₹11.4L</td><td class="va">−11.2%</td><td>4.1★</td></tr>
+      </tbody></table>
+    </div>
+    <div class="city-col">
+      <div class="city-col-lbl" style="color:var(--accent)"><i class="fa-solid fa-circle" style="font-size:10px"></i> Bangalore</div>
+      <table class="ctbl"><thead><tr><th>Store</th><th>Revenue</th><th>vs Target</th><th>Rating</th></tr></thead><tbody>
+        <tr><td>Indiranagar<span class="tag-w"><i class="fa-solid fa-trophy" style="font-size:10px"></i></span></td><td>₹21.2L</td><td class="vg">+11.4%</td><td class="vg">4.7★</td></tr>
+        <tr><td>Koramangala</td><td>₹17.6L</td><td class="vg">+4.8%</td><td>4.4★</td></tr>
+        <tr><td>Whitefield</td><td>₹14.1L</td><td class="va">−2.1%</td><td>4.2★</td></tr>
+      </tbody></table>
+    </div>
+  </div>
+  ${confSection('Fairly confident','Data covers all 6 stores but review platforms can lag by 24-48 hours. POS data is real-time.',[{source:'POS',t:'Revenue and covers for all 6 stores, month to date.'},{source:'Reviews',t:'Google Reviews + Zomato: 30-day avg rating per store.'}])}
+  ${exportStrip(true)}</div>`;}
+
+function bSentimentCard(){return `<div class="icard">
+  <div class="ic-action">
+    <div class="ic-albl"><i class="fa-solid fa-bolt"></i> Recommended action</div>
+    <div class="ic-atxt">Respond to the 18 Koramangala reviews and fill tonight's staffing gap</div>
+    <div class="tdir td-bad"><i class="fa-solid fa-arrow-trend-up"></i> Getting worse — complaints up 31% vs last week</div>
+    <div class="ic-btns">
+      <button class="btn-p" onclick="sq('Draft a response to Koramangala negative reviews about wait times')"><i class="fa-solid fa-reply"></i> Draft responses</button>
+      <button class="btn-wa" onclick="openDelegate('Karthik (Koramangala)','Hi Karthik — negative reviews up 31% this week, mostly about wait times. Still one staffing gap tonight. Please confirm the second staff member by 3 PM.')"><i class="fa-brands fa-whatsapp"></i> Chase Karthik</button>
+    </div>
+  </div>
+  <div class="ic-why">
+    <div class="ic-why-lbl">54 reviews flagged this week · Koramangala leads with 18</div>
+    <div class="ic-why-txt" style="margin-top:8px;">Top complaint: waited over 35 minutes. Reviews spike 3.4× on evenings with staff gaps.</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px;">
+      <div style="background:var(--surface2);border-radius:var(--r2);padding:12px 14px;"><div style="font-size:20px;font-weight:600;font-family:var(--fh);color:var(--red)">37%</div><div style="font-size:10px;color:var(--text3);margin-top:3px;">Wait time</div></div>
+      <div style="background:var(--surface2);border-radius:var(--r2);padding:12px 14px;"><div style="font-size:20px;font-weight:600;font-family:var(--fh);color:var(--amber)">26%</div><div style="font-size:10px;color:var(--text3);margin-top:3px;">Food quality</div></div>
+      <div style="background:var(--surface2);border-radius:var(--r2);padding:12px 14px;"><div style="font-size:20px;font-weight:600;font-family:var(--fh);color:var(--amber)">21%</div><div style="font-size:10px;color:var(--text3);margin-top:3px;">Staff attitude</div></div>
+      <div style="background:var(--surface2);border-radius:var(--r2);padding:12px 14px;"><div style="font-size:20px;font-weight:600;font-family:var(--fh);color:var(--text2)">16%</div><div style="font-size:10px;color:var(--text3);margin-top:3px;">Other</div></div>
+    </div>
+  </div>
+  ${confSection('High confidence','Strong correlation between staff-gap evenings and negative review spikes — 3.4× more reviews on understaffed nights. Pattern is consistent across 3 weeks.',[{source:'Reviews',t:'54 flagged this week. Koramangala leads with 18.'},{source:'Roster',t:'Staff-gap evenings have 3.4× more negative reviews.'}])}
+  ${exportStrip(false)}</div>`;}
+
+function bStaffCard(){return `<div class="icard">
+  <div class="ic-action">
+    <div class="ic-albl"><i class="fa-solid fa-bolt"></i> Recommended action</div>
+    <div class="ic-atxt">Koramangala still has 1 open gap — fill it before 5 PM</div>
+    <div class="ic-risk"><i class="fa-solid fa-triangle-exclamation"></i> Revenue at risk tonight: ₹22K–₹28K if unfilled</div>
+    <div class="ic-btns">
+      <button class="btn-wa" onclick="openDelegate('Karthik (Koramangala)','Hi Karthik — still one staff gap tonight dinner 7–10 PM. Please check on-call list and confirm by 5 PM.')"><i class="fa-brands fa-whatsapp"></i> Chase Karthik</button>
+    </div>
+  </div>
+  <div class="city-split">
+    <div class="city-col">
+      <div class="city-col-lbl" style="color:var(--accent)"><i class="fa-solid fa-circle" style="font-size:10px"></i> Hyderabad</div>
+      <table class="ctbl"><thead><tr><th>Store</th><th>Have</th><th>Need</th><th>Status</th></tr></thead><tbody>
+        <tr><td>Hyderabad main</td><td>5</td><td>5</td><td><span style="background:rgba(22,160,92,.1);color:var(--green);padding:1px 6px;border-radius:var(--rpill);font-size:10px;font-weight:600;">OK ✓</span></td></tr>
+        <tr><td>Jubilee Hills</td><td>4</td><td>5</td><td><span style="background:rgba(196,120,0,.1);color:var(--amber);padding:1px 6px;border-radius:var(--rpill);font-size:10px;font-weight:600;">−1</span></td></tr>
+        <tr><td>Banjara Hills</td><td>6</td><td>6</td><td><span style="background:rgba(22,160,92,.1);color:var(--green);padding:1px 6px;border-radius:var(--rpill);font-size:10px;font-weight:600;">OK ✓</span></td></tr>
+      </tbody></table>
+    </div>
+    <div class="city-col">
+      <div class="city-col-lbl" style="color:var(--accent)"><i class="fa-solid fa-circle" style="font-size:10px"></i> Bangalore</div>
+      <table class="ctbl"><thead><tr><th>Store</th><th>Have</th><th>Need</th><th>Status</th></tr></thead><tbody>
+        <tr><td>Koramangala</td><td>5</td><td>6</td><td><span style="background:rgba(217,53,53,.1);color:var(--red);padding:1px 6px;border-radius:var(--rpill);font-size:10px;font-weight:600;">−1 !</span></td></tr>
+        <tr><td>Whitefield</td><td>5</td><td>5</td><td><span style="background:rgba(22,160,92,.1);color:var(--green);padding:1px 6px;border-radius:var(--rpill);font-size:10px;font-weight:600;">OK ✓</span></td></tr>
+        <tr><td>Indiranagar</td><td>7</td><td>7</td><td><span style="background:rgba(22,160,92,.1);color:var(--green);padding:1px 6px;border-radius:var(--rpill);font-size:10px;font-weight:600;">OK ✓</span></td></tr>
+      </tbody></table>
+    </div>
+  </div>
+  ${confSection('High confidence','Roster data is confirmed for tonight. POS forecast is based on 4 comparable weeknights — reliable for same-day planning.',[{source:'Roster',t:'Hyderabad main confirmed full. Koramangala: Karthik confirmed 1 of 2.'},{source:'POS',t:'Cover forecast from last 4 identical weeknights.'}])}
+  ${exportStrip(true)}</div>`;}
+
+function bRatingsCard(){return `<div class="icard">
+  <div class="ic-action">
+    <div class="ic-albl"><i class="fa-solid fa-bolt"></i> Needs attention — 3 days no response</div>
+    <div class="ic-atxt">Rating at 3.7 — below 3.5 triggers Zomato visibility penalty</div>
+    <div class="tdir td-bad"><i class="fa-solid fa-arrow-trend-down"></i> Rating fell 4.4 → 3.7 in 17 days and still dropping</div>
+    <div class="ic-btns">
+      <button class="btn-wa" onclick="openDelegate('Ravi (Jubilee Hills Kitchen)','Hi Ravi — following up for the third time on the May 24th kitchen change. Rating now at 3.7 and risking Zomato penalty below 3.5. Please confirm revert date today.')"><i class="fa-brands fa-whatsapp"></i> Escalate to Ravi</button>
+      <button class="btn-g" onclick="sq('Draft response to Jubilee Hills negative reviews')"><i class="fa-solid fa-reply"></i> Draft responses</button>
+    </div>
+  </div>
+  <div class="ic-why">
+    <div class="ic-why-lbl">Why it's dropping</div>
+    <div class="ic-why-txt">Kitchen layout changed May 24th. Dish delays went from 14 to 23 minutes. 91% of 28 negative reviews post-date the change. Ravi was messaged 3 days ago — no response. Bangalore stores are holding steady at 4.2–4.7.</div>
+  </div>
+  <div class="spark-wrap"><div class="spark-lbl">Jubilee Hills rating — last 30 days</div><canvas class="sparkline rating-spark" height="46" style="display:block;width:100%;"></canvas></div>
+  ${confSection('High confidence','91% of post-change reviews mention the same issue. KDS data independently confirms the slowdown. Strong causal link between the kitchen change and the rating drop.',[{source:'Reviews',t:'28 of 34 reviews since May 24 mention temperature or wait times.'},{source:'POS',t:'KDS: Ticket-to-serve time 14 → 23 min after May 24th kitchen change.'}])}
+  ${exportStrip(false)}</div>`;}
+
+function bForecastCard(){return `<div class="icard">
+  <div class="ic-action">
+    <div class="ic-albl"><i class="fa-solid fa-bolt"></i> Weekend focus</div>
+    <div class="ic-atxt">Bangalore will carry the weekend — lock in Koramangala staffing now</div>
+    <div class="ic-rec"><i class="fa-solid fa-arrow-trend-up"></i> Bangalore weekend forecast ₹2.26L · Hyderabad ₹1.91L</div>
+    <div class="ic-btns">
+      <button class="btn-p" onclick="sq('Which Bangalore stores are understaffed tonight?')"><i class="fa-solid fa-users"></i> Fix Koramangala staffing</button>
+    </div>
+  </div>
+  <div class="city-split">
+    <div class="city-col">
+      <div class="city-col-lbl" style="color:var(--accent)"><i class="fa-solid fa-circle" style="font-size:10px"></i> Hyderabad</div>
+      <table class="ctbl"><thead><tr><th>Store</th><th>Sat</th><th>Sun</th><th>Signal</th></tr></thead><tbody>
+        <tr><td>Banjara Hills</td><td>₹78K</td><td>₹62K</td><td style="font-size:10px;color:var(--green)">Strong</td></tr>
+        <tr><td>Jubilee Hills</td><td>₹38K</td><td>₹35K</td><td style="font-size:10px;color:var(--red)">Rating drag</td></tr>
+        <tr><td>Hyderabad main</td><td>₹42K</td><td>₹36K</td><td style="font-size:10px;color:var(--amber)">Recovering</td></tr>
+      </tbody></table>
+    </div>
+    <div class="city-col">
+      <div class="city-col-lbl" style="color:var(--accent)"><i class="fa-solid fa-circle" style="font-size:10px"></i> Bangalore</div>
+      <table class="ctbl"><thead><tr><th>Store</th><th>Sat</th><th>Sun</th><th>Signal</th></tr></thead><tbody>
+        <tr><td>Indiranagar</td><td>₹92K</td><td>₹74K</td><td style="font-size:10px;color:var(--green)">Strong</td></tr>
+        <tr><td>Koramangala</td><td>₹72K</td><td>₹58K</td><td style="font-size:10px;color:var(--amber)">Staff risk</td></tr>
+        <tr><td>Whitefield</td><td>₹58K</td><td>₹47K</td><td style="font-size:10px;color:var(--green)">Stable</td></tr>
+      </tbody></table>
+    </div>
+  </div>
+  <div style="padding:14px 0 0;font-size:12px;color:var(--text3);">Forecast ±8%. Based on 8 weeks POS history + confirmed bookings.</div>
+  ${confSection('Fairly confident','Forecast is based on 8 weeks of historical weekend data plus confirmed bookings. Weather and events can shift actuals by ±8%.',[{source:'POS',t:'8 weeks of Sat/Sun history per store, both cities.'},{source:'Bookings',t:'340 confirmed covers Saturday across all stores.'}])}
+  ${exportStrip(true)}</div>`;}
+
+function bBanjaraCard(){return `<div class="icard">
+  <div class="ic-action">
+    <div class="ic-albl"><i class="fa-solid fa-trophy"></i> Top performer — Hyderabad</div>
+    <div class="ic-atxt">Banjara Hills is your strongest Hyderabad store — up 8.2% vs target</div>
+    <div class="ic-rec"><i class="fa-solid fa-arrow-trend-up"></i> ₹18.4L this month · 4.6 rating · 2,840 covers</div>
+    <div class="ic-btns">
+      <button class="btn-g" onclick="sq('What is Banjara Hills doing differently from Jubilee Hills?')"><i class="fa-solid fa-magnifying-glass"></i> What are they doing right?</button>
+      <button class="btn-g" onclick="sq('Compare all store performance this month')"><i class="fa-solid fa-code-compare"></i> Compare all stores</button>
+    </div>
+  </div>
+  <div class="ic-why">
+    <div class="ic-why-lbl">Why it's performing well</div>
+    <div class="ic-why-txt">Banjara Hills has maintained full staffing for 26 of 30 evenings this month. Average table turnover is 2.8× vs the Hyderabad region average of 2.1×. Kitchen ticket time is 13 min avg — lowest in the region. Staff tenure averages 14 months vs 8 at Hyderabad main.</div>
+  </div>
+  <div class="spark-wrap"><div class="spark-lbl">Daily revenue — last 30 days</div><canvas class="sparkline" height="46" style="display:block;width:100%;"></canvas></div>
+  ${confSection('High confidence','Three months of consistent POS growth with no anomalies. Review quality is high and stable — no outlier events detected.',[{source:'POS',t:'₹18.4L month to date. Consistent growth 3 months running.'},{source:'Reviews',t:'4.6 avg rating. 94% of reviews 4★ or above this month.'}])}
+  ${exportStrip(false)}</div>`;}
+
+function bIndiranagaCard(){return `<div class="icard">
+  <div class="ic-action">
+    <div class="ic-albl"><i class="fa-solid fa-trophy"></i> Top performer — all stores</div>
+    <div class="ic-atxt">Indiranagar is your best-performing store across both cities</div>
+    <div class="ic-rec"><i class="fa-solid fa-arrow-trend-up"></i> ₹21.2L this month · 4.7 rating · 3,140 covers · +11.4% vs target</div>
+    <div class="ic-btns">
+      <button class="btn-g" onclick="sq('What is Indiranagar doing right?')"><i class="fa-solid fa-magnifying-glass"></i> What are they doing right?</button>
+      <button class="btn-g" onclick="sq('Compare all store performance this month')"><i class="fa-solid fa-code-compare"></i> Compare all stores</button>
+    </div>
+  </div>
+  <div class="ic-why">
+    <div class="ic-why-lbl">Why it leads</div>
+    <div class="ic-why-txt">Indiranagar has the highest repeat customer rate at 38% — Bangalore avg is 24%. Staff tenure is 18 months avg. Kitchen to table time is 11 min avg. Manager Divya has been running weekly service training for 6 months — weekend revenue up 22% since.</div>
+  </div>
+  <div class="spark-wrap"><div class="spark-lbl">Daily revenue — last 30 days</div><canvas class="sparkline" height="46" style="display:block;width:100%;"></canvas></div>
+  ${confSection('High confidence','Four months of #1 performance with no dips. Review quality is the highest across all stores. Manager tenure and training program are stable variables.',[{source:'POS',t:'₹21.2L month to date. Consistent #1 for 4 months.'},{source:'Reviews',t:'4.7 avg. 97% of reviews 4★ or above.'}])}
+  ${exportStrip(false)}</div>`;}
+
+function bWhitefieldCard(){return `<div class="icard">
+  <div class="ic-action">
+    <div class="ic-albl"><i class="fa-solid fa-bolt"></i> Worth watching</div>
+    <div class="ic-atxt">Whitefield is slightly below target but stable</div>
+    <div class="ic-rec" style="color:var(--amber)"><i class="fa-solid fa-minus"></i> ₹14.1L this month · −2.1% vs target · 4.2 rating</div>
+    <div class="ic-btns">
+      <button class="btn-g" onclick="sq('Forecast weekend sales for all stores')"><i class="fa-solid fa-calendar"></i> Weekend forecast</button>
+    </div>
+  </div>
+  <div class="ic-why">
+    <div class="ic-why-lbl">What's happening</div>
+    <div class="ic-why-txt">Whitefield is in a newer commercial area with lower weekend foot traffic. Weekday revenue is healthy at +4.1% vs target — the weekend gap is structural. No immediate operational issues. Rating stable at 4.2.</div>
+  </div>
+  ${confSection('Fairly confident','Weekday-weekend split is structural and consistent. No operational red flags — the gap is location-driven, not a performance issue.',[{source:'POS',t:'Weekday avg ₹52K vs weekend avg ₹38K. Weekday performing well.'},{source:'Reviews',t:'4.2 avg stable for 3 months.'}])}
+  ${exportStrip(false)}</div>`;}
+
+function bAmbiguousCard(){return `<div class="icard">
+  <div class="ic-action">
+    <div class="ic-albl"><i class="fa-solid fa-bolt"></i> Recommended action</div>
+    <div class="ic-atxt">Focus on Jubilee Hills — the remaining open revenue issue in Hyderabad</div>
+    <div class="ic-rec"><i class="fa-solid fa-arrow-trend-up"></i> Hyderabad main recovering · Jubilee Hills still unresolved</div>
+    <div class="ic-btns">
+      <button class="btn-p" onclick="sq('Why did ratings drop in Jubilee Hills?')"><i class="fa-solid fa-magnifying-glass"></i> Diagnose Jubilee Hills</button>
+      <button class="btn-g" onclick="sq('Compare all store performance this month')"><i class="fa-solid fa-code-compare"></i> See both cities</button>
+    </div>
+  </div>
+  <div class="ic-why">
+    <div class="ic-why-lbl">Hyderabad picture</div>
+    <div class="ic-why-txt">Hyderabad main is improving since the Friday staffing fix. Jubilee Hills remains the primary drag — rating at 3.7, kitchen fix still pending. Banjara Hills is healthy. Tap the scope chip above to switch to Bangalore.</div>
+  </div>
+  ${confSection('Fairly confident','Based on POS data only — no review or camera data included in this view. Scope to Jubilee Hills for full diagnosis.',[{source:'POS',t:'All 3 Hyderabad stores month to date.'}])}
+  ${exportStrip(false)}</div>`;}
+
+function bGenericCard(q){
+  const ql=q.toLowerCase();
+  let title='Here is what I found',body='',rec='';
+  if(ql.includes('draft')||ql.includes('response')||ql.includes('reply')){
+    title='3 draft review responses';
+    body='<div style="display:flex;flex-direction:column;gap:12px;margin-top:10px;"><div style="background:var(--surface2);border-radius:var(--r2);padding:14px 16px;font-size:13px;color:var(--text2);line-height:1.75;"><strong style="color:var(--text)">Draft 1:</strong> Thank you for your feedback. We sincerely apologise for the wait time. We have identified the issue and are resolving it. We would love to have you back soon.</div><div style="background:var(--surface2);border-radius:var(--r2);padding:14px 16px;font-size:13px;color:var(--text2);line-height:1.75;"><strong style="color:var(--text)">Draft 2:</strong> We are really sorry you had to wait — that is not the experience we want for you. We have made staffing changes and would love to see you again soon.</div></div>';
+  } else if(ql.includes('doing right')||ql.includes('doing differently')){
+    title='Key success factors';
+    body='The best performing stores share three traits: consistent full staffing, kitchen ticket time under 14 minutes, and staff tenure above 12 months. Indiranagar leads on all three. Banjara Hills follows closely. These two stores also run weekly briefings which correlates with higher review scores.';
+    rec='Roll out weekly briefings to Jubilee Hills and Hyderabad main first';
+  } else {
+    body='I looked across your POS, roster, and review data. Operations look stable in 4 of 6 stores. Jubilee Hills and Koramangala need attention this week. Is there a specific store or metric you want to dig into?';
+  }
+  return `<div class="icard">
+    <div class="ic-action">
+      <div class="ic-albl"><i class="fa-solid fa-bolt"></i> Insight</div>
+      <div class="ic-atxt">${title}</div>
+      ${rec?`<div class="ic-rec"><i class="fa-solid fa-lightbulb"></i> ${rec}</div>`:''}
+      <div class="ic-btns">
+        <button class="btn-g" onclick="sq('Compare all store performance this month')"><i class="fa-solid fa-code-compare"></i> Compare all stores</button>
+        <button class="btn-g" onclick="sq('Why did ratings drop in Jubilee Hills?')"><i class="fa-solid fa-star"></i> Jubilee Hills</button>
+      </div>
+    </div>
+    <div class="ic-why"><div class="ic-why-lbl">Detail</div><div class="ic-why-txt">${body}</div></div>
+    ${confSection('Fairly confident','Covers both revenue and review signals across all stores. Generic query — confidence is moderate as scope was not specified.',[{source:'POS',t:'All stores, month to date.'},{source:'Reviews',t:'Google Reviews and Zomato: last 30 days.'}])}
+    ${exportStrip(false)}</div>`;}
+
+/* RESOLUTION CARD — compact collapsible recap strip */
+function addResolutionCard(){
+  const el=document.createElement('div');el.className='fi';
+  el.innerHTML=`<div class="recap-strip">
+    <div class="recap-header" onclick="toggleRecap(this)">
+      <div class="recap-closed-badges">
+        <span class="recap-badge rb-ok"><i class="fa-solid fa-check"></i> 1 closed</span>
+        <span class="recap-badge rb-red"><i class="fa-solid fa-triangle-exclamation"></i> 1 needs escalation</span>
+        <span class="recap-badge rb-amb"><i class="fa-solid fa-clock"></i> 1 partial</span>
+        <span style="font-size:12px;color:var(--text2);margin-left:4px;">from yesterday</span>
+      </div>
+      <div class="recap-toggle-lbl" id="recapToggleLbl"><i class="fa-solid fa-chevron-down"></i> show</div>
+    </div>
+    <div class="recap-body" id="recapBody">
+      <div class="recap-item">
+        <div class="recap-ico ric-ok"><i class="fa-solid fa-check"></i></div>
+        <div>
+          <div class="recap-title">Priya confirmed 2 extra staff for Friday dinner</div>
+          <div class="recap-detail">Hyderabad main Friday revenue up ₹14K vs last Friday. Fix worked.</div>
+        </div>
+      </div>
+      <div class="recap-item">
+        <div class="recap-ico ric-bad"><i class="fa-solid fa-triangle-exclamation"></i></div>
+        <div>
+          <div class="recap-title">Ravi has not reverted the Jubilee Hills kitchen change</div>
+          <div class="recap-detail">You messaged 3 days ago. Rating dropped to 3.7. Needs escalation today.</div>
+          <div class="recap-act" onclick="openDelegate('Ravi (Jubilee Hills)','Hi Ravi — following up on the kitchen change from May 24th. Rating now 3.7. Please confirm revert timeline today.')"><i class="fa-brands fa-whatsapp"></i> Escalate to Ravi</div>
+        </div>
+      </div>
+      <div class="recap-item">
+        <div class="recap-ico ric-warn"><i class="fa-solid fa-clock"></i></div>
+        <div>
+          <div class="recap-title">Koramangala — Karthik confirmed 1 of 2 staff</div>
+          <div class="recap-detail">One gap still open tonight. Friday partially improved — up ₹6K but below target.</div>
+          <div class="recap-act" onclick="openDelegate('Karthik (Koramangala)','Hi Karthik — still one staffing gap tonight. Can you confirm second staff member by 3 PM?')"><i class="fa-brands fa-whatsapp"></i> Follow up with Karthik</div>
+        </div>
+      </div>
+    </div>
+  </div>`;
+  chatEl.appendChild(el);
+}
+
+function toggleRecap(header){
+  const body=document.getElementById('recapBody');
+  const lbl=document.getElementById('recapToggleLbl');
+  const isOpen=body.classList.contains('open');
+  body.classList.toggle('open',!isOpen);
+  lbl.classList.toggle('open',!isOpen);
+  lbl.innerHTML=isOpen?'<i class="fa-solid fa-chevron-down"></i> show':'<i class="fa-solid fa-chevron-down"></i> hide';
+}
+
+/* BRIEFING — human, narrative-first, big hero action */
+function addBriefingCard(){
+  const el=document.createElement('div');el.className='fi';
+  el.innerHTML=`<div class="brief">
+    <div class="brief-greeting">Good morning, Arjun.</div>
+    <div class="brief-narrative">Two locations need your attention today. <strong>Hyderabad</strong> is still ₹1.2L behind target this month, and <strong>Jubilee Hills</strong> ratings are continuing to slide — you're now 3 days into a follow-up with Ravi.</div>
+    <div class="pa">
+      <div class="pa-flag"><i class="fa-solid fa-triangle-exclamation"></i> Most urgent</div>
+      <div class="pa-action">Escalate the Jubilee Hills kitchen revert</div>
+      <div class="pa-impact">Rating is at <strong>3.7</strong> — dropping below 3.5 by end of week triggers a Zomato visibility penalty. Ravi hasn't responded in 3 days.</div>
+      <div class="pa-cta">
+        <button class="btn-p" onclick="sq('Why did ratings drop in Jubilee Hills?')"><i class="fa-solid fa-magnifying-glass"></i> Full analysis</button>
+        <button class="btn-wa" onclick="openDelegate('Ravi (Jubilee Hills Kitchen)','Hi Ravi — third follow up on the May 24th kitchen change. Rating now 3.7 risking Zomato penalty. Please confirm revert date today.')"><i class="fa-brands fa-whatsapp"></i> Escalate to Ravi</button>
+      </div>
+    </div>
+    <div class="sec-alerts">
+      <div class="sa-divider"></div>
+      <div class="sa-heading">Also today</div>
+      <div class="sec-alert" onclick="sq('Which Bangalore stores are understaffed tonight?')">
+        <div class="sec-dot sd-a"></div>
+        <div class="sec-txt"><strong>Koramangala</strong><span class="ctag ct-b">Bangalore</span><span class="ctag-carry"><i class="fa-solid fa-clock" style="font-size:10px"></i> carryover</span> still 1 staff short tonight</div>
+        <i class="fa-solid fa-chevron-right" style="color:var(--text3);font-size:10px;"></i>
+      </div>
+      <div class="sec-alert" onclick="sq('Compare all store performance this month')">
+        <div class="sec-dot sd-a"></div>
+        <div class="sec-txt"><strong>Hyderabad main</strong><span class="ctag ct-h">Hyderabad</span> recovery confirmed but still ₹1.2L below monthly target</div>
+        <i class="fa-solid fa-chevron-right" style="color:var(--text3);font-size:10px;"></i>
+      </div>
+    </div>
+  </div>`;
+  chatEl.appendChild(el);
+}
+
+function drawSparks(){
+  document.querySelectorAll('canvas.sparkline').forEach(c=>{
+    if(c.dataset.drawn)return;c.dataset.drawn='1';
+    const isRating=c.classList.contains('rating-spark');
+    const w=c.parentElement.offsetWidth||500;c.width=w;c.height=46;
+    const ctx2=c.getContext('2d');const pts=30;
+    let data=isRating?Array.from({length:pts},(_,i)=>Math.max(3.5,4.4-(i*(0.7/pts))+(Math.random()-.5)*.1)):Array.from({length:pts},(_,i)=>{const base=i<24?(72-i*.3):(62+i*.8);return base+(Math.random()-.5)*14;});
+    const mi=Math.min(...data),ma=Math.max(...data),rng=ma-mi||1;
+    const xs=data.map((_,i)=>i*(w/(pts-1)));const ys=data.map(d=>42-((d-mi)/rng)*36);
+    const grad=ctx2.createLinearGradient(0,0,0,46);
+    grad.addColorStop(0,isRating?'rgba(217,53,53,.12)':'rgba(74,127,255,.12)');grad.addColorStop(1,'rgba(255,255,255,0)');
+    ctx2.beginPath();ctx2.moveTo(xs[0],ys[0]);for(let i=1;i<pts;i++)ctx2.lineTo(xs[i],ys[i]);
+    ctx2.lineTo(xs[pts-1],46);ctx2.lineTo(xs[0],46);ctx2.closePath();ctx2.fillStyle=grad;ctx2.fill();
+    ctx2.beginPath();ctx2.moveTo(xs[0],ys[0]);for(let i=1;i<pts;i++)ctx2.lineTo(xs[i],ys[i]);
+    ctx2.strokeStyle=isRating?'#D93535':'#4A7FFF';ctx2.lineWidth=1.5;ctx2.stroke();
+  });
+}
+
+function openDelegate(name,msg){document.getElementById('delName').textContent=name;document.getElementById('delMsg').textContent=msg;document.getElementById('delModal').classList.add('open');}
+function closeDelegate(){document.getElementById('delModal').classList.remove('open');}
+function confirmDelegate(){closeDelegate();showToast('Sent successfully');}
+function showToast(msg){const t=document.createElement('div');t.style.cssText='position:fixed;bottom:22px;right:22px;background:var(--green);color:#fff;font-size:13px;font-weight:600;padding:10px 18px;border-radius:var(--r2);z-index:400;display:flex;align-items:center;gap:6px;box-shadow:0 4px 16px rgba(0,0,0,.2);';t.innerHTML=`<i class="fa-solid fa-circle-check"></i> ${msg}`;document.body.appendChild(t);setTimeout(()=>t.remove(),2500);}
+
+/* PAGE SWITCHING */
+let currentPage = 'home';
+function switchPage(page) {
+  currentPage = page;
+  ['home','investigations','actions'].forEach(p => {
+    document.getElementById('nav-'+p).classList.toggle('on', p===page);
+  });
+  document.getElementById('topbarSub').textContent = page==='home' ? 'Monday, 8 June 2026' : page==='investigations' ? '3 open · 1 resolved this week' : '5 pending actions';
+  document.getElementById('topbarTitle').textContent = page==='home' ? 'Good morning, Arjun' : page==='investigations' ? 'Investigations' : 'Actions';
+  const inputArea = document.getElementById('inputArea');
+  if(page==='home'){
+    inputArea.style.display='';
+    renderCurrentThread();
+  } else {
+    inputArea.style.display='none';
+    chatEl.innerHTML='';
+    isPastThread=true;
+    if(page==='investigations') renderInvestigations();
+    else renderActions();
+  }
+}
+
+function renderInvestigations(){
+  var investigations = [
+    {
+      id:'i1', tab:'urgent', store:'Jubilee Hills', city:'Hyderabad',
+      title:'Rating decline — kitchen change not reverted',
+      detail:'Rating dropped from 4.4 to 3.7 since the May 24th kitchen layout change. 91% of negative reviews post-date the change. Ravi has not responded in 3 days. Risk: Zomato visibility penalty below 3.5.',
+      sources:['Reviews','POS'], day:'Day 3', status2:'Escalated',
+      urgency:'high', urgencyLabel:'Urgent',
+      findings:[
+        { label:'Root cause confirmed', text:'Kitchen layout change on May 24th increased ticket-to-serve time from 14 to 23 minutes.' },
+        { label:'Review pattern', text:'28 of 34 reviews since May 24 mention temperature or wait time. Pre-change avg was 4.4 stars.' },
+        { label:'Penalty threshold', text:'Zomato deprioritises listings below 3.5. At current drop rate, this occurs by Friday.' },
+        { label:'Escalation status', text:'First message sent June 4. Second June 5. No response from Ravi.' }
+      ],
+      contact:'Ravi', contactRole:'Jubilee Hills Manager',
+      msg:'Hi Ravi — third follow-up on the May 24th kitchen change. Rating now 3.7 risking Zomato penalty. Please confirm revert date today.',
+      chatQ:'Why did ratings drop in Jubilee Hills?'
+    },
+    {
+      id:'i2', tab:'watching', store:'Koramangala', city:'Bangalore',
+      title:'Negative review spike — staffing correlated',
+      detail:'22 negative reviews in 7 days. 18 of 22 mention wait time or cold food during 7-10 PM dinner shift. Karthik confirmed 1 of 2 requested staff.',
+      sources:['Reviews','Roster'], day:'Day 2', status2:'Watch closely',
+      urgency:'medium', urgencyLabel:'Watch closely',
+      findings:[
+        { label:'Review pattern', text:'18 of 22 reviews mention dinner shift. Average rating dropped from 4.1 to 3.8 this week.' },
+        { label:'Staffing gap', text:'7-10 PM requires 4 floor staff. Only 3 confirmed tonight. Karthik aware but 1 gap unfilled.' },
+        { label:'Revenue impact', text:'Friday up Rs6K vs last Friday but still Rs8K below target. Partial improvement only.' }
+      ],
+      contact:'Karthik', contactRole:'Koramangala Manager',
+      msg:'Hi Karthik — still one staffing gap tonight. Can you confirm second staff member by 3 PM?',
+      chatQ:'Summarize Koramangala customer complaints'
+    },
+    {
+      id:'i3', tab:'watching', store:'Hyderabad main', city:'Hyderabad',
+      title:'Revenue gap — monthly target Rs1.2L short',
+      detail:'Store is Rs1.2L behind monthly target. Friday dinner fix is working but needs 3 more strong Fridays to close the gap. Kitchen and staffing now stable.',
+      sources:['POS','Roster'], day:'Day 8', status2:'Recovering',
+      urgency:'low', urgencyLabel:'Monitoring',
+      findings:[
+        { label:'Recovery confirmed', text:'Friday revenue up Rs14K after Priya confirmed extra staff. Trend is positive.' },
+        { label:'Gap remaining', text:'Rs1.2L still needed across remaining Fridays and Saturdays this month.' },
+        { label:'Risk', text:'If staffing slips again, gap widens. Lock-in with Priya needed this week.' }
+      ],
+      contact:'Priya', contactRole:'Hyderabad Main Manager',
+      msg:'Hi Priya — can you confirm the same 2-staff arrangement every Friday and Saturday for the rest of the month?',
+      chatQ:'Why is Hyderabad revenue down?'
+    },
+    {
+      id:'i4', tab:'resolved', store:'Hyderabad main', city:'Hyderabad',
+      title:'Friday dinner revenue drop — resolved',
+      detail:'Priya confirmed 2 extra staff for Friday dinner. Revenue recovered Rs14K. Root cause addressed. Marked resolved.',
+      sources:['POS'], day:'Resolved', status2:'Resolved',
+      urgency:'resolved', urgencyLabel:'Resolved',
+      findings:[
+        { label:'Fix applied', text:'2 extra staff confirmed by Priya for Friday dinner shift.' },
+        { label:'Outcome', text:'Friday revenue up Rs14K vs prior Friday. Recovery on track.' }
+      ],
+      contact:'Priya', contactRole:'Hyderabad Main Manager',
+      msg:'', chatQ:'Compare all store performance this month'
+    }
+  ];
+
+  var tabLabels = { urgent:'Urgent', watching:'Watching', resolved:'Resolved' };
+  var tabIcons  = { urgent:'fa-triangle-exclamation', watching:'fa-eye', resolved:'fa-circle-check' };
+  var urgencyColor = { high:'var(--red)', medium:'var(--amber)', low:'var(--accent)', resolved:'var(--green)' };
+  var urgencyBg    = { high:'rgba(217,53,53,.08)', medium:'rgba(196,120,0,.08)', low:'rgba(74,127,255,.08)', resolved:'rgba(22,160,92,.08)' };
+  var counts = {
+    urgent:   investigations.filter(function(i){return i.tab==='urgent';}).length,
+    watching: investigations.filter(function(i){return i.tab==='watching';}).length,
+    resolved: investigations.filter(function(i){return i.tab==='resolved';}).length
+  };
+  var expandedIds = {};
+  var activeTab = 'urgent';
+
+  function card(inv){
+    var isExpanded = !!expandedIds[inv.id];
+    var uc = urgencyColor[inv.urgency] || 'var(--text3)';
+    var ub = urgencyBg[inv.urgency]    || 'rgba(0,0,0,.04)';
+
+    var sourceTags = inv.sources.map(function(s){
+      return '<span style="display:inline-flex;align-items:center;gap:3px;font-size:10px;color:var(--text3);"><i class="fa-solid fa-layer-group" style="font-size:10px;"></i>' + s + '</span>';
+    }).join(' · ');
+
+    var findings = inv.findings.map(function(f){
+      return '<div style="font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:10px;"><strong style="color:var(--text);">' + f.label + ':</strong> ' + f.text + '</div>';
+    }).join('');
+
+    var isOpen = inv.tab !== 'resolved';
+    var buttons = isOpen
+      ? '<button class="btn-wa" style="padding:7px 14px;font-size:12px;" onclick="event.stopPropagation();openDelegate(\'' + inv.contact + ' (' + inv.contactRole + ')\',\'' + inv.msg + '\')"><i class="fa-brands fa-whatsapp"></i> ' + inv.contact + '</button>'
+        + '<button class="btn-p" style="padding:7px 16px;font-size:12px;" onclick="event.stopPropagation();sq(\'' + inv.chatQ + '\')"><i class="fa-solid fa-comment-dots"></i> Investigate in chat</button>'
+      : '<button class="btn-g" style="padding:7px 14px;font-size:12px;" onclick="event.stopPropagation();sq(\'' + inv.chatQ + '\')"><i class="fa-solid fa-comment-dots"></i> View in chat</button>';
+
+    var expandedSection = isExpanded
+      ? '<div style="border-top:1px solid var(--border);margin-top:16px;padding-top:16px;">'
+          + findings
+          + '<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:16px;">' + buttons + '</div>'
+        + '</div>'
+      : '';
+
+    return '<div id="inv-card-' + inv.id + '" style="background:#ffffff;border:1px solid var(--border);border-radius:var(--r);padding:20px 24px;cursor:pointer;" onclick="document.toggleInv(\'' + inv.id + '\')">'
+      + '<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;">'
+        + '<div style="flex:1;min-width:0;">'
+          + '<div style="display:flex;align-items:center;gap:5px;margin-bottom:7px;">'
+            + '<i class="fa-solid fa-location-dot" style="font-size:10px;color:var(--text3);"></i>'
+            + '<span style="font-size:10px;font-weight:600;letter-spacing:.6px;text-transform:uppercase;color:var(--text3);">' + inv.store + ' · ' + inv.city + '</span>'
+          + '</div>'
+          + '<div style="font-size:14px;font-weight:600;color:var(--text);line-height:1.3;margin-bottom:10px;">' + inv.title + '</div>'
+          + '<div style="font-size:13px;color:var(--text2);line-height:1.6;margin-bottom:12px;">' + inv.detail + '</div>'
+          + '<div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">'
+            + sourceTags
+            + ' · <span style="display:inline-flex;align-items:center;gap:3px;font-size:10px;color:var(--text3);"><i class="fa-regular fa-clock" style="font-size:10px;"></i>' + inv.day + '</span>'
+            + ' · <span style="display:inline-flex;align-items:center;gap:3px;font-size:10px;color:var(--text3);"><i class="fa-solid fa-circle-half-stroke" style="font-size:10px;"></i>' + inv.status2 + '</span>'
+          + '</div>'
+        + '</div>'
+        + '<div style="display:flex;flex-direction:column;align-items:flex-end;gap:8px;flex-shrink:0;">'
+          + '<span style="font-size:10px;font-weight:600;padding:3px 11px;border-radius:var(--rpill);background:' + ub + ';color:' + uc + ';">' + inv.urgencyLabel + '</span>'
+          + '<span style="font-size:12px;color:var(--text3);">' + (isExpanded ? '▲' : '▼') + '</span>'
+        + '</div>'
+      + '</div>'
+      + expandedSection
+    + '</div>';
+  }
+
+  function renderTab(tab){
+    activeTab = tab;
+    ['urgent','watching','resolved'].forEach(function(t){
+      var el = document.getElementById('inv-tab-'+t);
+      if(el) el.classList.toggle('act-tab-on', t===tab);
+    });
+    var list = investigations.filter(function(i){return i.tab===tab;});
+    var html = list.length
+      ? '<div style="display:flex;flex-direction:column;gap:10px;">' + list.map(card).join('') + '</div>'
+      : '<div style="padding:48px;text-align:center;color:var(--text3);font-size:13px;">No ' + tabLabels[tab].toLowerCase() + ' investigations</div>';
+    document.getElementById('inv-list').innerHTML = html;
+  }
+
+  function tabBtn(t){
+    var isActive = t==='urgent';
+    var cntBg    = isActive ? 'rgba(255,255,255,.25)' : 'var(--surface3)';
+    var cntColor = isActive ? '#fff' : 'var(--text3)';
+    return '<button id="inv-tab-' + t + '" class="act-tab' + (isActive?' act-tab-on':'') + '" onclick="document.invRenderTab(\'' + t + '\')">'
+      + '<i class="fa-solid ' + tabIcons[t] + '"></i> ' + tabLabels[t]
+      + '<span style="font-size:10px;font-weight:600;padding:1px 6px;border-radius:var(--rpill);margin-left:1px;background:' + cntBg + ';color:' + cntColor + ';">' + counts[t] + '</span>'
+      + '</button>';
+  }
+
+  chatEl.innerHTML = '<div class="fi" style="display:flex;flex-direction:column;gap:20px;">'
+    + '<div>'
+      + '<div style="font-family:var(--fh);font-size:20px;font-weight:600;margin-bottom:6px;">Open Investigations</div>'
+      + '<div style="font-size:14px;color:var(--text2);line-height:1.6;max-width:520px;">Active issues across your stores, ranked by urgency. Each investigation links directly to a conversation.</div>'
+    + '</div>'
+    + '<div style="background:#ffffff;border:1px solid var(--border);border-radius:var(--r);display:flex;">'
+      + '<div style="flex:1;padding:18px 24px;border-right:1px solid var(--border);"><div style="font-size:30px;font-weight:600;color:var(--red);line-height:1;">' + counts.urgent + '</div><div style="font-size:12px;color:var(--text3);margin-top:4px;">Urgent today</div></div>'
+      + '<div style="flex:1;padding:18px 24px;border-right:1px solid var(--border);"><div style="font-size:30px;font-weight:600;color:var(--text);line-height:1;">' + (counts.urgent+counts.watching) + '</div><div style="font-size:12px;color:var(--text3);margin-top:4px;">Open</div></div>'
+      + '<div style="flex:1;padding:18px 24px;"><div style="font-size:30px;font-weight:600;color:var(--green);line-height:1;">' + counts.resolved + '</div><div style="font-size:12px;color:var(--text3);margin-top:4px;">Resolved this week</div></div>'
+    + '</div>'
+    + '<div style="display:flex;align-items:center;gap:6px;">' + ['urgent','watching','resolved'].map(tabBtn).join('') + '</div>'
+    + '<div id="inv-list"></div>'
+  + '</div>';
+
+  document.invRenderTab = function(tab){ activeTab=tab; renderTab(tab); };
+  document.toggleInv = function(id){ expandedIds[id]=!expandedIds[id]; renderTab(activeTab); };
+
+  renderTab('urgent');
+  isPastThread=false;
+}
+
+function renderActions(){
+  var actions = [
+    { id:'a1', title:'Escalate Jubilee Hills kitchen revert to Ravi', detail:'Rating at 3.7 and dropping. Third follow-up needed today. Below 3.5 triggers Zomato penalty by Friday.', assignee:'Arjun (you)', contact:'Ravi', contactRole:'Jubilee Hills Manager', msg:'Hi Ravi — third follow-up on the May 24th kitchen change. Rating now 3.7. Please confirm revert date today.', tab:'urgent', dueLabel:'Today' },
+    { id:'a2', title:'Fill Koramangala dinner shift gap tonight', detail:'1 staff gap 7–10 PM dinner shift. Chase Karthik to confirm second staff member by 3 PM.', assignee:'Karthik', contact:'Karthik', contactRole:'Koramangala Manager', msg:'Hi Karthik — still one staffing gap tonight. Can you confirm second staff member by 3 PM?', tab:'urgent', dueLabel:'3 PM today' },
+    { id:'a3', title:'Lock in Hyderabad main Friday staffing', detail:'Recovery confirmed. Need Priya to commit same 2-staff arrangement every Friday and Saturday this month.', assignee:'Priya', contact:'Priya', contactRole:'Hyderabad Main Manager', msg:'Hi Priya — can you confirm the same 2-staff arrangement every Friday and Saturday this month?', tab:'open', dueLabel:'This week' },
+    { id:'a4', title:'Review Indiranagar weekly training format', detail:'Divyas weekly briefings are the top driver of Indiranagar performance. Roll out to Jubilee Hills and Hyderabad main.', assignee:'Arjun (you)', contact:'Divya', contactRole:'Indiranagar Manager', msg:'Hi Divya — your weekly briefing format is working really well. Can you share the structure so we can roll it out to two other stores?', tab:'open', dueLabel:'By Friday' },
+    { id:'a5', title:'Banjara Hills — confirm weekend covers', detail:'340 covers confirmed Saturday. Double-check Sunday roster is fully staffed ahead of forecast peak.', assignee:'Arjun (you)', contact:'Store Manager', contactRole:'Banjara Hills', msg:'Hi — please confirm Sunday roster is fully staffed. We are forecasting a strong weekend.', tab:'open', dueLabel:'Tomorrow' },
+    { id:'a6', title:'Priya confirmed Friday staffing fix', detail:'2 extra staff confirmed for dinner shift. Revenue recovered Rs14K. Marked done.', assignee:'Priya', contact:'Priya', contactRole:'Hyderabad Main', msg:'', tab:'done', dueLabel:'Jun 7' },
+    { id:'a7', title:'Weekly digest sent to all managers', detail:'Indiranagar and Banjara Hills leading. Jubilee Hills and Koramangala flagged for attention.', assignee:'Arjun (you)', contact:'All Managers', contactRole:'6 stores', msg:'', tab:'done', dueLabel:'Jun 5' },
+  ];
+
+  var tabLabels = { urgent:'Urgent', open:'Open', done:'Done' };
+  var tabIcons = { urgent:'fa-triangle-exclamation', open:'fa-circle-dot', done:'fa-circle-check' };
+  var counts = {
+    urgent: actions.filter(function(a){return a.tab==='urgent';}).length,
+    open:   actions.filter(function(a){return a.tab==='open';}).length,
+    done:   actions.filter(function(a){return a.tab==='done';}).length
+  };
+
+  function card(a){
+    var isDone = a.tab==='done';
+    var isUrgent = a.tab==='urgent';
+    var checkBorder = isDone ? 'var(--green)' : isUrgent ? 'var(--red)' : 'var(--border2)';
+    var checkBg = isDone ? 'var(--green)' : 'transparent';
+    var checkIcon = isDone ? '<i class="fa-solid fa-check" style="font-size:10px;color:#fff;"></i>' : '';
+    var toastMsg = isDone ? 'Reopened' : 'Marked as done';
+    var titleColor = isDone ? 'var(--text3)' : 'var(--text)';
+    var titleDecor = isDone ? 'text-decoration:line-through;' : '';
+    var urgentBadge = isUrgent ? '<span style="font-size:10px;font-weight:600;padding:2px 9px;border-radius:var(--rpill);background:rgba(217,53,53,.08);color:var(--red);">Urgent</span>' : '';
+    var dueColor = isUrgent ? 'var(--amber)' : 'var(--text3)';
+    var dueFw = isUrgent ? '600' : '400';
+    var detailMb = isDone ? '0' : '12px';
+    var bottomRow = isDone
+      ? '<div style="font-size:12px;color:var(--text3);display:flex;align-items:center;gap:4px;margin-top:6px;"><i class="fa-solid fa-user" style="font-size:10px;"></i>' + a.assignee + '</div>'
+      : '<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;"><span style="font-size:12px;color:var(--text3);display:flex;align-items:center;gap:4px;"><i class="fa-solid fa-user" style="font-size:10px;"></i>' + a.assignee + '</span><button class="btn-wa" style="padding:5px 12px;font-size:12px;" onclick="openDelegate(\'' + a.contact + ' (' + a.contactRole + ')\',\'' + a.msg + '\')"><i class="fa-brands fa-whatsapp"></i> ' + a.contact + '</button></div>';
+
+    return '<div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:20px 24px;display:flex;align-items:flex-start;gap:16px;">'
+      + '<div style="margin-top:3px;width:18px;height:18px;border-radius:50%;border:1.5px solid ' + checkBorder + ';background:' + checkBg + ';display:flex;align-items:center;justify-content:center;flex-shrink:0;cursor:pointer;" onclick="showToast(\'' + toastMsg + '\')">' + checkIcon + '</div>'
+      + '<div style="flex:1;min-width:0;">'
+        + '<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:5px;">'
+          + '<div style="font-size:14px;font-weight:600;color:' + titleColor + ';line-height:1.35;' + titleDecor + '">' + a.title + '</div>'
+          + '<div style="display:flex;flex-direction:column;align-items:flex-end;gap:3px;flex-shrink:0;">'
+            + urgentBadge
+            + '<span style="font-size:10px;color:' + dueColor + ';font-weight:' + dueFw + ';">' + a.dueLabel + '</span>'
+          + '</div>'
+        + '</div>'
+        + '<div style="font-size:13px;color:var(--text2);line-height:1.6;margin-bottom:' + detailMb + ';">' + a.detail + '</div>'
+        + bottomRow
+      + '</div>'
+    + '</div>';
+  }
+
+  function renderTab(tab){
+    ['urgent','open','done'].forEach(function(t){
+      var el = document.getElementById('act-tab-'+t);
+      if(el) el.classList.toggle('act-tab-on', t===tab);
+    });
+    var list = actions.filter(function(a){return a.tab===tab;});
+    var html = list.length
+      ? '<div style="display:flex;flex-direction:column;gap:10px;">' + list.map(card).join('') + '</div>'
+      : '<div style="padding:48px;text-align:center;color:var(--text3);font-size:13px;">No ' + tabLabels[tab].toLowerCase() + ' actions</div>';
+    document.getElementById('act-list').innerHTML = html;
+  }
+
+  function tabBtn(t){
+    var isActive = t==='urgent';
+    var cntBg = isActive ? 'rgba(255,255,255,.25)' : 'var(--surface3)';
+    var cntColor = isActive ? '#fff' : 'var(--text3)';
+    return '<button id="act-tab-' + t + '" class="act-tab' + (isActive?' act-tab-on':'') + '" onclick="document.actRenderTab(\'' + t + '\')">'
+      + '<i class="fa-solid ' + tabIcons[t] + '"></i> ' + tabLabels[t]
+      + '<span style="font-size:10px;font-weight:600;padding:1px 6px;border-radius:var(--rpill);margin-left:1px;background:' + cntBg + ';color:' + cntColor + ';">' + counts[t] + '</span>'
+      + '</button>';
+  }
+
+  chatEl.innerHTML = '<div class="fi" style="display:flex;flex-direction:column;gap:20px;">'
+    + '<div>'
+      + '<div style="font-family:var(--fh);font-size:20px;font-weight:600;margin-bottom:6px;">Actions</div>'
+      + '<div style="font-size:14px;color:var(--text2);line-height:1.6;max-width:520px;">Everything that needs to happen today and this week, drawn from active investigations.</div>'
+    + '</div>'
+    + '<div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r);display:flex;">'
+      + '<div style="flex:1;padding:18px 24px;border-right:1px solid var(--border);"><div style="font-size:30px;font-weight:600;color:var(--red);line-height:1;">' + counts.urgent + '</div><div style="font-size:12px;color:var(--text3);margin-top:4px;">Urgent today</div></div>'
+      + '<div style="flex:1;padding:18px 24px;border-right:1px solid var(--border);"><div style="font-size:30px;font-weight:600;color:var(--text);line-height:1;">' + (counts.urgent+counts.open) + '</div><div style="font-size:12px;color:var(--text3);margin-top:4px;">Open</div></div>'
+      + '<div style="flex:1;padding:18px 24px;"><div style="font-size:30px;font-weight:600;color:var(--green);line-height:1;">' + counts.done + '</div><div style="font-size:12px;color:var(--text3);margin-top:4px;">Done this week</div></div>'
+    + '</div>'
+    + '<div style="display:flex;align-items:center;gap:6px;">' + ['urgent','open','done'].map(tabBtn).join('') + '</div>'
+    + '<div id="act-list"></div>'
+  + '</div>';
+
+  document.actRenderTab = renderTab;
+  renderTab('urgent');
+  isPastThread=false;
+}
+</script>
+</body>
+</html>
